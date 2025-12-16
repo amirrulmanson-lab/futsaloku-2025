@@ -93,7 +93,9 @@
       <h3 class="text-lg font-semibold mb-3 text-gray-700 mt-4">Suku Akhir</h3>
       <div id="schedule-knockout-quarter" class="space-y-2 mb-6"></div><!-- Separuh Akhir -->
       <h3 class="text-lg font-semibold mb-3 text-gray-700 mt-4">Separuh Akhir</h3>
-      <div id="schedule-knockout-semi" class="space-y-2 mb-6"></div><!-- Akhir -->
+      <div id="schedule-knockout-semi" class="space-y-2 mb-6"></div><!-- Tempat Ketiga -->
+      <h3 class="text-lg font-semibold mb-3 text-gray-700 mt-4">🥉 Tempat Ketiga</h3>
+      <div id="schedule-knockout-third" class="space-y-2 mb-6"></div><!-- Akhir -->
       <h3 class="text-lg font-semibold mb-3 text-gray-700 mt-4">Akhir</h3>
       <div id="schedule-knockout-final" class="space-y-2"></div>
      </div>
@@ -194,6 +196,25 @@
          <div id="semi2-match"></div>
         </div>
        </div>
+      </div><!-- Third Place Playoff -->
+      <div id="third-place-section" class="mb-8">
+       <h3 class="text-xl font-semibold mb-4 text-gray-700 text-center">🥉 Perlawanan Tempat Ketiga</h3>
+       <div class="max-w-2xl mx-auto">
+        <div class="border-4 border-orange-400 rounded-lg p-6 bg-gradient-to-br from-orange-50 to-orange-100">
+         <div class="flex justify-between items-center mb-3">
+          <div class="text-sm font-semibold text-orange-700">
+           Tempat Ke-3 &amp; Ke-4
+          </div>
+          <div id="third-place-time" class="bg-orange-600 text-white px-4 py-1 rounded text-xs font-bold">
+           ⏰ 11:55-12:02
+          </div>
+         </div>
+         <div id="third-place-info" class="text-xs text-center text-gray-600 mb-4">
+          Kalah Separuh Akhir 1 vs Kalah Separuh Akhir 2
+         </div>
+         <div id="third-place-match"></div>
+        </div>
+       </div>
       </div><!-- Final -->
       <div class="mb-4">
        <h3 class="text-xl font-semibold mb-4 text-gray-700 text-center">🏆 Akhir</h3>
@@ -204,7 +225,7 @@
            Perlawanan Akhir
           </div>
           <div id="final-time" class="bg-yellow-600 text-white px-4 py-1 rounded text-xs font-bold">
-           ⏰ 11:55-12:02
+           ⏰ 12:02-12:09
           </div>
          </div>
          <div id="final-info" class="text-xs text-center text-gray-600 mb-4">
@@ -374,30 +395,30 @@
     // Setiap perlawanan 7 minit, masa rehat minimum 14 minit untuk setiap pasukan
     // PADANG SATU SAHAJA - perlawanan berselang-seli A > B > C > A > B > C...
     const matchesRendahA = [
-      { id: 'A-0-1', team1Idx: 0, team2Idx: 1, time: '9:00' },   // Perlawanan 1
-      { id: 'A-2-3', team1Idx: 2, team2Idx: 3, time: '9:21' },   // Perlawanan 4
-      { id: 'A-0-2', team1Idx: 0, team2Idx: 2, time: '9:42' },   // Perlawanan 7
-      { id: 'A-1-3', team1Idx: 1, team2Idx: 3, time: '10:03' },  // Perlawanan 10
-      { id: 'A-0-3', team1Idx: 0, team2Idx: 3, time: '10:24' },  // Perlawanan 13
-      { id: 'A-1-2', team1Idx: 1, team2Idx: 2, time: '10:45' }   // Perlawanan 16
+      { id: 'A-0-1', team1Idx: 0, team2Idx: 1, time: '9:00' },   // Perlawanan 1 (9:00-9:07)
+      { id: 'A-2-3', team1Idx: 2, team2Idx: 3, time: '9:21' },   // Perlawanan 4 (9:21-9:28)
+      { id: 'A-0-2', team1Idx: 0, team2Idx: 2, time: '9:42' },   // Perlawanan 7 (9:42-9:49)
+      { id: 'A-1-3', team1Idx: 1, team2Idx: 3, time: '10:03' },  // Perlawanan 10 (10:03-10:10)
+      { id: 'A-0-3', team1Idx: 0, team2Idx: 3, time: '10:24' },  // Perlawanan 13 (10:24-10:31)
+      { id: 'A-1-2', team1Idx: 1, team2Idx: 2, time: '10:45' }   // Perlawanan 16 (10:45-10:52)
     ];
     
     const matchesRendahB = [
-      { id: 'B-0-1', team1Idx: 4, team2Idx: 5, time: '9:07' },   // Perlawanan 2
-      { id: 'B-2-3', team1Idx: 6, team2Idx: 7, time: '9:28' },   // Perlawanan 5
-      { id: 'B-0-2', team1Idx: 4, team2Idx: 6, time: '9:49' },   // Perlawanan 8
-      { id: 'B-1-3', team1Idx: 5, team2Idx: 7, time: '10:10' },  // Perlawanan 11
-      { id: 'B-0-3', team1Idx: 4, team2Idx: 7, time: '10:31' },  // Perlawanan 14
-      { id: 'B-1-2', team1Idx: 5, team2Idx: 6, time: '10:52' }   // Perlawanan 17
+      { id: 'B-0-1', team1Idx: 4, team2Idx: 5, time: '9:07' },   // Perlawanan 2 (9:07-9:14)
+      { id: 'B-2-3', team1Idx: 6, team2Idx: 7, time: '9:28' },   // Perlawanan 5 (9:28-9:35)
+      { id: 'B-0-2', team1Idx: 4, team2Idx: 6, time: '9:49' },   // Perlawanan 8 (9:49-9:56)
+      { id: 'B-1-3', team1Idx: 5, team2Idx: 7, time: '10:10' },  // Perlawanan 11 (10:10-10:17)
+      { id: 'B-0-3', team1Idx: 4, team2Idx: 7, time: '10:31' },  // Perlawanan 14 (10:31-10:38)
+      { id: 'B-1-2', team1Idx: 5, team2Idx: 6, time: '10:52' }   // Perlawanan 17 (10:52-10:59)
     ];
     
     const matchesRendahC = [
-      { id: 'C-0-1', team1Idx: 8, team2Idx: 9, time: '9:14' },   // Perlawanan 3
-      { id: 'C-2-3', team1Idx: 10, team2Idx: 11, time: '9:35' }, // Perlawanan 6
-      { id: 'C-0-2', team1Idx: 8, team2Idx: 10, time: '9:56' },  // Perlawanan 9
-      { id: 'C-1-3', team1Idx: 9, team2Idx: 11, time: '10:17' }, // Perlawanan 12
-      { id: 'C-0-3', team1Idx: 8, team2Idx: 11, time: '10:38' }, // Perlawanan 15
-      { id: 'C-1-2', team1Idx: 9, team2Idx: 10, time: '10:59' }  // Perlawanan 18
+      { id: 'C-0-1', team1Idx: 8, team2Idx: 9, time: '9:14' },   // Perlawanan 3 (9:14-9:21)
+      { id: 'C-2-3', team1Idx: 10, team2Idx: 11, time: '9:35' }, // Perlawanan 6 (9:35-9:42)
+      { id: 'C-0-2', team1Idx: 8, team2Idx: 10, time: '9:56' },  // Perlawanan 9 (9:56-10:03)
+      { id: 'C-1-3', team1Idx: 9, team2Idx: 11, time: '10:17' }, // Perlawanan 12 (10:17-10:24)
+      { id: 'C-0-3', team1Idx: 8, team2Idx: 11, time: '10:38' }, // Perlawanan 15 (10:38-10:45)
+      { id: 'C-1-2', team1Idx: 9, team2Idx: 10, time: '10:59' }  // Perlawanan 18 (10:59-11:06)
     ];
 
     // Match data for KATEGORI MENENGAH (2 groups only - A & B, 5 teams each)
@@ -449,14 +470,15 @@
         gf: 0,
         ga: 0,
         gd: 0,
-        points: 0
+        points: 0,
+        group: matches.length > 0 ? matches[0].id.split('-')[0] : ''
       }));
 
       matches.forEach(match => {
         const score = scoresMap.get(getMatchId(match.id));
         if (score && score.team1_score !== null && score.team2_score !== null) {
-          const team1Stats = standings.find(s => s.team === getTeamName(match.team1Idx, config));
-          const team2Stats = standings.find(s => s.team === getTeamName(match.team2Idx, config));
+          const team1Stats = standings.find(s => s.teamIdx === match.team1Idx);
+          const team2Stats = standings.find(s => s.teamIdx === match.team2Idx);
 
           team1Stats.played++;
           team2Stats.played++;
@@ -509,11 +531,22 @@
         }
       }
 
+      // Susun kedudukan mengikut kriteria:
+      // 1. Mata (points) - lebih tinggi lebih baik
+      // 2. Perbezaan gol (gd) - lebih tinggi lebih baik
+      // 3. Jumlah gol (gf) - lebih banyak lebih baik
+      // 4. Head-to-head (jika ada perlawanan bertentangan)
       standings.sort((a, b) => {
+        // Kriteria 1: Mata
         if (b.points !== a.points) return b.points - a.points;
+        
+        // Kriteria 2: Perbezaan Gol
         if (b.gd !== a.gd) return b.gd - a.gd;
+        
+        // Kriteria 3: Jumlah Gol
         if (b.gf !== a.gf) return b.gf - a.gf;
         
+        // Kriteria 4: Head-to-Head
         const h2h = getHeadToHead(a.teamIdx, b.teamIdx);
         if (h2h) {
           if (h2h.for > h2h.against) return -1;
@@ -524,6 +557,79 @@
       });
 
       return standings;
+    }
+
+    function getQualifiedTeams() {
+      const { matchesA, matchesB, matchesC } = getCurrentMatches();
+      
+      if (currentCategory === 'rendah') {
+        // KATEGORI RENDAH: 12 pasukan (3 kumpulan x 4 pasukan)
+        // Layak ke peringkat kalah mati: TOP 8 pasukan
+        // - 3 Johan Kumpulan (tempat 1 setiap kumpulan)
+        // - 3 Naib Johan (tempat 2 setiap kumpulan)
+        // - 2 Tempat Ketiga Terbaik (dari 3 tempat ke-3)
+        const teamIndicesA = [0, 1, 2, 3];
+        const teamIndicesB = [4, 5, 6, 7];
+        const teamIndicesC = [8, 9, 10, 11];
+        
+        const config = window.elementSdk?.config || defaultConfig;
+        const standingsA = calculateStandings(teamIndicesA, matchesA, matchScores, config);
+        const standingsB = calculateStandings(teamIndicesB, matchesB, matchScores, config);
+        const standingsC = calculateStandings(teamIndicesC, matchesC, matchScores, config);
+        
+        // Johan dan Naib Johan setiap kumpulan
+        const johanA = standingsA[0]?.team || 'Johan A';
+        const naibJohanA = standingsA[1]?.team || 'Naib Johan A';
+        const johanB = standingsB[0]?.team || 'Johan B';
+        const naibJohanB = standingsB[1]?.team || 'Naib Johan B';
+        const johanC = standingsC[0]?.team || 'Johan C';
+        const naibJohanC = standingsC[1]?.team || 'Naib Johan C';
+        
+        // Tempat ke-3 dari semua kumpulan - ambil 2 terbaik
+        const third3A = { ...standingsA[2], group: 'A' };
+        const third3B = { ...standingsB[2], group: 'B' };
+        const third3C = { ...standingsC[2], group: 'C' };
+        
+        // Susun tempat ke-3 mengikut kriteria yang sama (mata > perbezaan gol > jumlah gol)
+        const allThirds = [third3A, third3B, third3C].filter(t => t.team);
+        allThirds.sort((a, b) => {
+          if (b.points !== a.points) return b.points - a.points;
+          if (b.gd !== a.gd) return b.gd - a.gd;
+          if (b.gf !== a.gf) return b.gf - a.gf;
+          return 0;
+        });
+        
+        const best3rd1 = allThirds[0]?.team || 'Tempat 3 Terbaik #1';
+        const best3rd2 = allThirds[1]?.team || 'Tempat 3 Terbaik #2';
+        
+        return {
+          johanA, naibJohanA,
+          johanB, naibJohanB,
+          johanC, naibJohanC,
+          best3rd1, best3rd2
+        };
+      } else {
+        // KATEGORI MENENGAH: 10 pasukan (2 kumpulan x 5 pasukan)
+        // Layak ke peringkat kalah mati: TOP 4 pasukan
+        // - 2 Johan Kumpulan (tempat 1 setiap kumpulan)
+        // - 2 Naib Johan (tempat 2 setiap kumpulan)
+        const teamIndicesA = [0, 1, 2, 3, 4];
+        const teamIndicesB = [5, 6, 7, 8, 9];
+        
+        const config = window.elementSdk?.config || defaultConfig;
+        const standingsA = calculateStandings(teamIndicesA, matchesMenengahA, matchScores, config);
+        const standingsB = calculateStandings(teamIndicesB, matchesMenengahB, matchScores, config);
+        
+        const johanA = standingsA[0]?.team || 'Johan A';
+        const naibJohanA = standingsA[1]?.team || 'Naib Johan A';
+        const johanB = standingsB[0]?.team || 'Johan B';
+        const naibJohanB = standingsB[1]?.team || 'Naib Johan B';
+        
+        return {
+          johanA, naibJohanA,
+          johanB, naibJohanB
+        };
+      }
     }
 
     function renderStandings(containerId, teamIndices, matches) {
@@ -695,6 +801,7 @@
       
       // Different knockout timings for Rendah vs Menengah
       // RENDAH: 8 pasukan (3 Johan + 3 Naib Johan + 2 Tempat 3 Terbaik)
+      // Masa bermula 11:13 (7 minit selepas perlawanan kumpulan terakhir 11:06)
       const knockoutMatches = currentCategory === 'rendah' ? [
         { time: '11:13', endTime: '11:20', title: 'Suku Akhir 1', team1: 'Johan A', team2: 'Tempat 3 Terbaik #2', stage: 'quarter' },
         { time: '11:20', endTime: '11:27', title: 'Suku Akhir 2', team1: 'Johan B', team2: 'Tempat 3 Terbaik #1', stage: 'quarter' },
@@ -702,15 +809,18 @@
         { time: '11:34', endTime: '11:41', title: 'Suku Akhir 4', team1: 'Naib Johan A', team2: 'Naib Johan C', stage: 'quarter' },
         { time: '11:41', endTime: '11:48', title: 'Separuh Akhir 1', team1: 'Menang Suku Akhir 1', team2: 'Menang Suku Akhir 2', stage: 'semi' },
         { time: '11:48', endTime: '11:55', title: 'Separuh Akhir 2', team1: 'Menang Suku Akhir 3', team2: 'Menang Suku Akhir 4', stage: 'semi' },
-        { time: '11:55', endTime: '12:02', title: 'Akhir', team1: 'Menang Separuh Akhir 1', team2: 'Menang Separuh Akhir 2', stage: 'final' }
+        { time: '11:55', endTime: '12:02', title: 'Tempat Ke-3', team1: 'Kalah Separuh Akhir 1', team2: 'Kalah Separuh Akhir 2', stage: 'third' },
+        { time: '12:02', endTime: '12:09', title: 'Akhir', team1: 'Menang Separuh Akhir 1', team2: 'Menang Separuh Akhir 2', stage: 'final' }
       ] : [
         { time: '15:30', endTime: '15:37', title: 'Separuh Akhir 1', team1: 'Johan A', team2: 'Naib Johan B', stage: 'semi' },
         { time: '15:37', endTime: '15:44', title: 'Separuh Akhir 2', team1: 'Johan B', team2: 'Naib Johan A', stage: 'semi' },
-        { time: '15:44', endTime: '15:51', title: 'Akhir', team1: 'Menang Separuh Akhir 1', team2: 'Menang Separuh Akhir 2', stage: 'final' }
+        { time: '15:44', endTime: '15:51', title: 'Tempat Ke-3', team1: 'Kalah Separuh Akhir 1', team2: 'Kalah Separuh Akhir 2', stage: 'third' },
+        { time: '15:51', endTime: '15:58', title: 'Akhir', team1: 'Menang Separuh Akhir 1', team2: 'Menang Separuh Akhir 2', stage: 'final' }
       ];
       
       const quarterMatches = knockoutMatches.filter(m => m.stage === 'quarter');
       const semiMatches = knockoutMatches.filter(m => m.stage === 'semi');
+      const thirdPlaceMatches = knockoutMatches.filter(m => m.stage === 'third');
       const finalMatches = knockoutMatches.filter(m => m.stage === 'final');
       
       function renderMatchGroup(matches, containerId) {
@@ -744,6 +854,9 @@
         renderMatchGroup(quarterMatches, 'schedule-knockout-quarter');
       }
       renderMatchGroup(semiMatches, 'schedule-knockout-semi');
+      if (thirdPlaceMatches.length > 0) {
+        renderMatchGroup(thirdPlaceMatches, 'schedule-knockout-third');
+      }
       renderMatchGroup(finalMatches, 'schedule-knockout-final');
     }
 
@@ -824,9 +937,136 @@
       const buttonColor = config.button_color || defaultConfig.button_color;
       const textColor = config.text_color || defaultConfig.text_color;
       
+      // Check if all group stage matches are complete
+      const { matchesA, matchesB, matchesC } = getCurrentMatches();
+      const allMatches = currentCategory === 'rendah' 
+        ? [...matchesA, ...matchesB, ...matchesC]
+        : [...matchesA, ...matchesB];
+      
+      const allGroupMatchesComplete = allMatches.every(match => {
+        const score = matchScores.get(getMatchId(match.id));
+        return score && score.team1_score !== null && score.team2_score !== null;
+      });
+      
+      // Get qualified teams
+      const qualified = getQualifiedTeams();
+      
+      // Determine actual team names based on match ID
+      let actualTeam1 = defaultTeam1;
+      let actualTeam2 = defaultTeam2;
+      
+      if (currentCategory === 'rendah') {
+        if (matchId === 'QUARTER-1') {
+          actualTeam1 = allGroupMatchesComplete ? qualified.johanA : defaultTeam1;
+          actualTeam2 = allGroupMatchesComplete ? qualified.best3rd2 : defaultTeam2;
+        } else if (matchId === 'QUARTER-2') {
+          actualTeam1 = allGroupMatchesComplete ? qualified.johanB : defaultTeam1;
+          actualTeam2 = allGroupMatchesComplete ? qualified.best3rd1 : defaultTeam2;
+        } else if (matchId === 'QUARTER-3') {
+          actualTeam1 = allGroupMatchesComplete ? qualified.johanC : defaultTeam1;
+          actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanB : defaultTeam2;
+        } else if (matchId === 'QUARTER-4') {
+          actualTeam1 = allGroupMatchesComplete ? qualified.naibJohanA : defaultTeam1;
+          actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanC : defaultTeam2;
+        } else if (matchId === 'SEMI-1') {
+          const q1Score = matchScores.get(getMatchId('QUARTER-1'));
+          const q2Score = matchScores.get(getMatchId('QUARTER-2'));
+          const q1Complete = q1Score && q1Score.team1_score !== null && q1Score.team2_score !== null;
+          const q2Complete = q2Score && q2Score.team1_score !== null && q2Score.team2_score !== null;
+          
+          actualTeam1 = q1Complete ? (q1Score.team1_score > q1Score.team2_score ? qualified.johanA : qualified.best3rd2) : defaultTeam1;
+          actualTeam2 = q2Complete ? (q2Score.team1_score > q2Score.team2_score ? qualified.johanB : qualified.best3rd1) : defaultTeam2;
+        } else if (matchId === 'SEMI-2') {
+          const q3Score = matchScores.get(getMatchId('QUARTER-3'));
+          const q4Score = matchScores.get(getMatchId('QUARTER-4'));
+          const q3Complete = q3Score && q3Score.team1_score !== null && q3Score.team2_score !== null;
+          const q4Complete = q4Score && q4Score.team1_score !== null && q4Score.team2_score !== null;
+          
+          actualTeam1 = q3Complete ? (q3Score.team1_score > q3Score.team2_score ? qualified.johanC : qualified.naibJohanB) : defaultTeam1;
+          actualTeam2 = q4Complete ? (q4Score.team1_score > q4Score.team2_score ? qualified.naibJohanA : qualified.naibJohanC) : defaultTeam2;
+        } else if (matchId === 'THIRD-PLACE') {
+          const s1Score = matchScores.get(getMatchId('SEMI-1'));
+          const s2Score = matchScores.get(getMatchId('SEMI-2'));
+          const s1Complete = s1Score && s1Score.team1_score !== null && s1Score.team2_score !== null;
+          const s2Complete = s2Score && s2Score.team1_score !== null && s2Score.team2_score !== null;
+          
+          if (s1Complete && s1Score.team1_name && s1Score.team2_name) {
+            actualTeam1 = s1Score.team1_score < s1Score.team2_score ? s1Score.team1_name : s1Score.team2_name;
+          } else {
+            actualTeam1 = defaultTeam1;
+          }
+          
+          if (s2Complete && s2Score.team1_name && s2Score.team2_name) {
+            actualTeam2 = s2Score.team1_score < s2Score.team2_score ? s2Score.team1_name : s2Score.team2_name;
+          } else {
+            actualTeam2 = defaultTeam2;
+          }
+        } else if (matchId === 'FINAL') {
+          const s1Score = matchScores.get(getMatchId('SEMI-1'));
+          const s2Score = matchScores.get(getMatchId('SEMI-2'));
+          const s1Complete = s1Score && s1Score.team1_score !== null && s1Score.team2_score !== null;
+          const s2Complete = s2Score && s2Score.team1_score !== null && s2Score.team2_score !== null;
+          
+          if (s1Complete && s1Score.team1_name && s1Score.team2_name) {
+            actualTeam1 = s1Score.team1_score > s1Score.team2_score ? s1Score.team1_name : s1Score.team2_name;
+          } else {
+            actualTeam1 = defaultTeam1;
+          }
+          
+          if (s2Complete && s2Score.team1_name && s2Score.team2_name) {
+            actualTeam2 = s2Score.team1_score > s2Score.team2_score ? s2Score.team1_name : s2Score.team2_name;
+          } else {
+            actualTeam2 = defaultTeam2;
+          }
+        }
+      } else {
+        // Menengah - now supports third place match
+        if (matchId === 'SEMI-1') {
+          actualTeam1 = allGroupMatchesComplete ? qualified.johanA : defaultTeam1;
+          actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanB : defaultTeam2;
+        } else if (matchId === 'SEMI-2') {
+          actualTeam1 = allGroupMatchesComplete ? qualified.johanB : defaultTeam1;
+          actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanA : defaultTeam2;
+        } else if (matchId === 'THIRD-PLACE') {
+          const s1Score = matchScores.get(getMatchId('SEMI-1'));
+          const s2Score = matchScores.get(getMatchId('SEMI-2'));
+          const s1Complete = s1Score && s1Score.team1_score !== null && s1Score.team2_score !== null;
+          const s2Complete = s2Score && s2Score.team1_score !== null && s2Score.team2_score !== null;
+          
+          if (s1Complete && s1Score.team1_name && s1Score.team2_name) {
+            actualTeam1 = s1Score.team1_score < s1Score.team2_score ? s1Score.team1_name : s1Score.team2_name;
+          } else {
+            actualTeam1 = defaultTeam1;
+          }
+          
+          if (s2Complete && s2Score.team1_name && s2Score.team2_name) {
+            actualTeam2 = s2Score.team1_score < s2Score.team2_score ? s2Score.team1_name : s2Score.team2_name;
+          } else {
+            actualTeam2 = defaultTeam2;
+          }
+        } else if (matchId === 'FINAL') {
+          const s1Score = matchScores.get(getMatchId('SEMI-1'));
+          const s2Score = matchScores.get(getMatchId('SEMI-2'));
+          const s1Complete = s1Score && s1Score.team1_score !== null && s1Score.team2_score !== null;
+          const s2Complete = s2Score && s2Score.team1_score !== null && s2Score.team2_score !== null;
+          
+          if (s1Complete && s1Score.team1_name && s1Score.team2_name) {
+            actualTeam1 = s1Score.team1_score > s1Score.team2_score ? s1Score.team1_name : s1Score.team2_name;
+          } else {
+            actualTeam1 = defaultTeam1;
+          }
+          
+          if (s2Complete && s2Score.team1_name && s2Score.team2_name) {
+            actualTeam2 = s2Score.team1_score > s2Score.team2_score ? s2Score.team1_name : s2Score.team2_name;
+          } else {
+            actualTeam2 = defaultTeam2;
+          }
+        }
+      }
+      
       const score = matchScores.get(getMatchId(matchId));
-      const team1Name = score?.team1_name || defaultTeam1;
-      const team2Name = score?.team2_name || defaultTeam2;
+      const team1Name = score?.team1_name || actualTeam1;
+      const team2Name = score?.team2_name || actualTeam2;
       const team1Score = score?.team1_score ?? '';
       const team2Score = score?.team2_score ?? '';
       const hasScore = team1Score !== '' && team2Score !== '';
@@ -1011,10 +1251,13 @@
     }
 
     function renderKnockoutStage() {
-      // Show/hide quarter finals section based on category
+      // Show/hide quarter finals section and third place based on category
       const quarterSection = document.getElementById('quarter-finals-section');
+      const thirdPlaceSection = document.getElementById('third-place-section');
+      
       if (currentCategory === 'rendah') {
         quarterSection.style.display = 'block';
+        thirdPlaceSection.style.display = 'block';
         
         // Render quarter finals
         renderKnockoutMatch('quarter1-match', 'QUARTER-1', 'Johan A', 'Tempat 3 Terbaik #2', '11:16-11:23');
@@ -1025,22 +1268,27 @@
         // Render semi finals for Rendah
         document.getElementById('semi1-time').textContent = `⏰ 11:41-11:48`;
         document.getElementById('semi2-time').textContent = `⏰ 11:48-11:55`;
-        document.getElementById('final-time').textContent = `⏰ 11:55-12:02`;
+        document.getElementById('third-place-time').textContent = `⏰ 11:55-12:02`;
+        document.getElementById('final-time').textContent = `⏰ 12:02-12:09`;
         
         renderKnockoutMatch('semi1-match', 'SEMI-1', 'Menang Suku Akhir 1', 'Menang Suku Akhir 2', '11:41-11:48');
         renderKnockoutMatch('semi2-match', 'SEMI-2', 'Menang Suku Akhir 3', 'Menang Suku Akhir 4', '11:48-11:55');
-        renderKnockoutMatch('final-match', 'FINAL', 'Pemenang Separuh Akhir 1', 'Pemenang Separuh Akhir 2', '11:55-12:02');
+        renderKnockoutMatch('third-place-match', 'THIRD-PLACE', 'Kalah Separuh Akhir 1', 'Kalah Separuh Akhir 2', '11:55-12:02');
+        renderKnockoutMatch('final-match', 'FINAL', 'Pemenang Separuh Akhir 1', 'Pemenang Separuh Akhir 2', '12:02-12:09');
       } else {
         quarterSection.style.display = 'none';
+        thirdPlaceSection.style.display = 'block';
         
         // Render semi finals for Menengah
         document.getElementById('semi1-time').textContent = `⏰ 15:30-15:37`;
         document.getElementById('semi2-time').textContent = `⏰ 15:37-15:44`;
-        document.getElementById('final-time').textContent = `⏰ 15:44-15:51`;
+        document.getElementById('third-place-time').textContent = `⏰ 15:44-15:51`;
+        document.getElementById('final-time').textContent = `⏰ 15:51-15:58`;
         
         renderKnockoutMatch('semi1-match', 'SEMI-1', 'Johan A', 'Naib Johan B', '15:30-15:37');
         renderKnockoutMatch('semi2-match', 'SEMI-2', 'Johan B', 'Naib Johan A', '15:37-15:44');
-        renderKnockoutMatch('final-match', 'FINAL', 'Pemenang Separuh Akhir 1', 'Pemenang Separuh Akhir 2', '15:44-15:51');
+        renderKnockoutMatch('third-place-match', 'THIRD-PLACE', 'Kalah Separuh Akhir 1', 'Kalah Separuh Akhir 2', '15:44-15:51');
+        renderKnockoutMatch('final-match', 'FINAL', 'Pemenang Separuh Akhir 1', 'Pemenang Separuh Akhir 2', '15:51-15:58');
       }
     }
 
@@ -1311,5 +1559,5 @@
       }
     })();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aeeba4ce4b25e23',t:'MTc2NTg5Mzg0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aeed75624927a7f',t:'MTc2NTg5NTAzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
