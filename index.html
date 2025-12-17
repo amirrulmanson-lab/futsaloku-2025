@@ -59,7 +59,7 @@
       <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded">
        <p class="text-sm text-gray-700"><strong>📝 Nota:</strong></p>
        <ul class="text-sm text-gray-600 mt-2 space-y-1 ml-4">
-        <li>• Masa perlawanan: <strong>5 minit</strong></li>
+        <li>��� Masa perlawanan: <strong>5 minit</strong></li>
         <li>• Masa rehat: <strong>2 minit</strong></li>
         <li>• Setiap pasukan ada rehat sebelum perlawanan seterusnya</li>
         <li>• Pasukan akan bermain di kedua-dua padang</li>
@@ -114,7 +114,7 @@
      <div class="bg-white rounded-lg shadow-lg p-6">
       <div class="flex items-center justify-between mb-6">
        <div>
-        <h2 class="text-2xl font-bold text-purple-700">🏆 Peringkat Kalah Mati</h2>
+        <h2 class="text-2xl font-bold text-purple-700">��� Peringkat Kalah Mati</h2>
         <p id="knockout-subtitle" class="text-sm text-gray-600 mt-1">Kategori Rendah bermula dari Suku Akhir</p>
        </div><button id="reset-knockout-btn" onclick="resetKnockoutMatches()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-semibold hidden"> 🗑️ Reset Peringkat Kalah Mati </button>
       </div><!-- Quarter Final (Kategori Rendah sahaja) -->
@@ -274,8 +274,8 @@
       const knockoutSubtitle = document.getElementById('knockout-subtitle');
       if (knockoutSubtitle) {
         knockoutSubtitle.textContent = category === 'rendah' 
-          ? 'Kategori Rendah bermula dari Suku Akhir'
-          : 'Kategori Menengah bermula dari Suku Akhir';
+          ? '12 pasukan (4+4+4), bermula dari Suku Akhir'
+          : '13 pasukan (5+4+4), bermula dari Suku Akhir';
       }
       
       renderAll();
@@ -311,28 +311,30 @@
     function getTeamName(idx, config) {
       if (currentCategory === 'menengah') {
         const menengahTeamsA = [
-          'SMK SUNGAI UDANG',
-          'MALINDO TEAM',
-          'KASTURI A',
-          'KASTURI C'
+          'ADE PUTRA',
+          'KASTURI B',
+          'SERI SOCCER',
+          'SMKKT',
+          'D\'NAISS'
         ];
         
         const menengahTeamsB = [
-          'KASTURI B',
-          "D'NAISS",
-          'SERI SOCCER',
-          'SEMERAH'
+          'KASTURI A',
+          'STARIM UNITED B',
+          'MALINDO TEAM',
+          'LUNASS FC'
         ];
         
         const menengahTeamsC = [
-          'LUNASS FC',
-          'ADE PUTRA',
-          'SMKKT'
+          'STARIM UNITED A',
+          'KASTURI C',
+          'SMK SUNGAI UDANG',
+          'SEMERAH'
         ];
         
-        if (idx <= 3) return menengahTeamsA[idx];
-        if (idx >= 4 && idx <= 7) return menengahTeamsB[idx - 4];
-        if (idx >= 8 && idx <= 10) return menengahTeamsC[idx - 8];
+        if (idx <= 4) return menengahTeamsA[idx];
+        if (idx >= 5 && idx <= 8) return menengahTeamsB[idx - 5];
+        if (idx >= 9 && idx <= 12) return menengahTeamsC[idx - 9];
       }
       return config[`team_${idx + 1}`] || defaultConfig[`team_${idx + 1}`];
     }
@@ -370,22 +372,29 @@
       { id: 'A-0-2', team1Idx: 0, team2Idx: 2, group: 'A' },
       { id: 'A-1-3', team1Idx: 1, team2Idx: 3, group: 'A' },
       { id: 'A-0-3', team1Idx: 0, team2Idx: 3, group: 'A' },
-      { id: 'A-1-2', team1Idx: 1, team2Idx: 2, group: 'A' }
+      { id: 'A-1-2', team1Idx: 1, team2Idx: 2, group: 'A' },
+      { id: 'A-0-4', team1Idx: 0, team2Idx: 4, group: 'A' },
+      { id: 'A-1-4', team1Idx: 1, team2Idx: 4, group: 'A' },
+      { id: 'A-2-4', team1Idx: 2, team2Idx: 4, group: 'A' },
+      { id: 'A-3-4', team1Idx: 3, team2Idx: 4, group: 'A' }
     ];
     
     const matchesMenengahB = [
-      { id: 'B-0-1', team1Idx: 4, team2Idx: 5, group: 'B' },
-      { id: 'B-2-3', team1Idx: 6, team2Idx: 7, group: 'B' },
-      { id: 'B-0-2', team1Idx: 4, team2Idx: 6, group: 'B' },
-      { id: 'B-1-3', team1Idx: 5, team2Idx: 7, group: 'B' },
-      { id: 'B-0-3', team1Idx: 4, team2Idx: 7, group: 'B' },
-      { id: 'B-1-2', team1Idx: 5, team2Idx: 6, group: 'B' }
+      { id: 'B-0-1', team1Idx: 5, team2Idx: 6, group: 'B' },
+      { id: 'B-2-3', team1Idx: 7, team2Idx: 8, group: 'B' },
+      { id: 'B-0-2', team1Idx: 5, team2Idx: 7, group: 'B' },
+      { id: 'B-1-3', team1Idx: 6, team2Idx: 8, group: 'B' },
+      { id: 'B-0-3', team1Idx: 5, team2Idx: 8, group: 'B' },
+      { id: 'B-1-2', team1Idx: 6, team2Idx: 7, group: 'B' }
     ];
     
     const matchesMenengahC = [
-      { id: 'C-0-1', team1Idx: 8, team2Idx: 9, group: 'C' },
-      { id: 'C-0-2', team1Idx: 8, team2Idx: 10, group: 'C' },
-      { id: 'C-1-2', team1Idx: 9, team2Idx: 10, group: 'C' }
+      { id: 'C-0-1', team1Idx: 9, team2Idx: 10, group: 'C' },
+      { id: 'C-2-3', team1Idx: 11, team2Idx: 12, group: 'C' },
+      { id: 'C-0-2', team1Idx: 9, team2Idx: 11, group: 'C' },
+      { id: 'C-1-3', team1Idx: 10, team2Idx: 12, group: 'C' },
+      { id: 'C-0-3', team1Idx: 9, team2Idx: 12, group: 'C' },
+      { id: 'C-1-2', team1Idx: 10, team2Idx: 11, group: 'C' }
     ];
 
     let matchScores = new Map();
@@ -534,9 +543,9 @@
           best3rd1, best3rd2
         };
       } else {
-        const teamIndicesA = [0, 1, 2, 3];
-        const teamIndicesB = [4, 5, 6, 7];
-        const teamIndicesC = [8, 9, 10];
+        const teamIndicesA = [0, 1, 2, 3, 4];
+        const teamIndicesB = [5, 6, 7, 8, 9];
+        const teamIndicesC = [10, 11, 12, 13];
         
         const config = window.elementSdk?.config || defaultConfig;
         const standingsA = calculateStandings(teamIndicesA, matchesMenengahA, matchScores, config);
@@ -552,8 +561,9 @@
         
         const third3A = { ...standingsA[2], group: 'A' };
         const third3B = { ...standingsB[2], group: 'B' };
+        const third3C = { ...standingsC[2], group: 'C' };
         
-        const allThirds = [third3A, third3B].filter(t => t.team);
+        const allThirds = [third3A, third3B, third3C].filter(t => t.team);
         allThirds.sort((a, b) => {
           if (b.points !== a.points) return b.points - a.points;
           if (b.gd !== a.gd) return b.gd - a.gd;
@@ -562,12 +572,13 @@
         });
         
         const best3rd1 = allThirds[0]?.team || 'Tempat 3 Terbaik #1';
+        const best3rd2 = allThirds[1]?.team || 'Tempat 3 Terbaik #2';
         
         return {
           johanA, naibJohanA,
           johanB, naibJohanB,
           johanC, naibJohanC,
-          best3rd1
+          best3rd1, best3rd2
         };
       }
     }
@@ -864,8 +875,8 @@
           const q1Complete = q1Score && q1Score.team1_score !== null && q1Score.team2_score !== null;
           const q2Complete = q2Score && q2Score.team1_score !== null && q2Score.team2_score !== null;
           
-          actualTeam1 = q1Complete ? (q1Score.team1_score > q1Score.team2_score ? qualified.johanA : qualified.best3rd1) : defaultTeam1;
-          actualTeam2 = q2Complete ? (q2Score.team1_score > q2Score.team2_score ? qualified.johanB : qualified.naibJohanC) : defaultTeam2;
+          actualTeam1 = q1Complete ? (q1Score.team1_score > q1Score.team2_score ? qualified.johanA : qualified.best3rd2) : defaultTeam1;
+          actualTeam2 = q2Complete ? (q2Score.team1_score > q2Score.team2_score ? qualified.johanB : qualified.best3rd1) : defaultTeam2;
         } else if (matchId === 'SEMI-2') {
           const q3Score = matchScores.get(getMatchId('QUARTER-3'));
           const q4Score = matchScores.get(getMatchId('QUARTER-4'));
@@ -873,7 +884,7 @@
           const q4Complete = q4Score && q4Score.team1_score !== null && q4Score.team2_score !== null;
           
           actualTeam1 = q3Complete ? (q3Score.team1_score > q3Score.team2_score ? qualified.johanC : qualified.naibJohanB) : defaultTeam1;
-          actualTeam2 = q4Complete ? (q4Score.team1_score > q4Score.team2_score ? qualified.naibJohanA : qualified.naibJohanA) : defaultTeam2;
+          actualTeam2 = q4Complete ? (q4Score.team1_score > q4Score.team2_score ? qualified.naibJohanA : qualified.naibJohanC) : defaultTeam2;
         } else if (matchId === 'THIRD-PLACE') {
           const s1Score = matchScores.get(getMatchId('SEMI-1'));
           const s2Score = matchScores.get(getMatchId('SEMI-2'));
@@ -1148,27 +1159,26 @@
         renderKnockoutMatch('third-place-match', 'THIRD-PLACE', 'Kalah Separuh Akhir 1', 'Kalah Separuh Akhir 2');
         renderKnockoutMatch('final-match', 'FINAL', 'Pemenang Separuh Akhir 1', 'Pemenang Separuh Akhir 2');
       } else {
+        // Kategori Menengah: 8 pasukan layak (2 teratas setiap kumpulan + 2 tempat 3 terbaik)
         quarterSection.style.display = 'block';
         
-        // Update info text untuk menengah
         semi1Info.textContent = 'Menang Suku Akhir 1 vs Menang Suku Akhir 2';
         semi2Info.textContent = 'Menang Suku Akhir 3 vs Menang Suku Akhir 4';
         
-        // Quarter finals untuk menengah: 8 pasukan layak (2 teratas dari setiap kumpulan + 2 tempat 3 terbaik)
         const quarter1Info = document.getElementById('quarter1-info');
         const quarter2Info = document.getElementById('quarter2-info');
         const quarter3Info = document.getElementById('quarter3-info');
         const quarter4Info = document.getElementById('quarter4-info');
         
-        quarter1Info.textContent = 'Johan A vs Tempat 3 Terbaik #1';
-        quarter2Info.textContent = 'Johan B vs Naib Johan C';
+        quarter1Info.textContent = 'Johan A vs Tempat 3 Terbaik #2';
+        quarter2Info.textContent = 'Johan B vs Tempat 3 Terbaik #1';
         quarter3Info.textContent = 'Johan C vs Naib Johan B';
-        quarter4Info.textContent = 'Naib Johan A vs Tempat 3 Terbaik #2';
+        quarter4Info.textContent = 'Naib Johan A vs Naib Johan C';
         
-        renderKnockoutMatch('quarter1-match', 'QUARTER-1', 'Johan A', 'Tempat 3 Terbaik #1');
-        renderKnockoutMatch('quarter2-match', 'QUARTER-2', 'Johan B', 'Naib Johan C');
+        renderKnockoutMatch('quarter1-match', 'QUARTER-1', 'Johan A', 'Tempat 3 Terbaik #2');
+        renderKnockoutMatch('quarter2-match', 'QUARTER-2', 'Johan B', 'Tempat 3 Terbaik #1');
         renderKnockoutMatch('quarter3-match', 'QUARTER-3', 'Johan C', 'Naib Johan B');
-        renderKnockoutMatch('quarter4-match', 'QUARTER-4', 'Naib Johan A', 'Tempat 3 Terbaik #2');
+        renderKnockoutMatch('quarter4-match', 'QUARTER-4', 'Naib Johan A', 'Naib Johan C');
         
         renderKnockoutMatch('semi1-match', 'SEMI-1', 'Menang Suku Akhir 1', 'Menang Suku Akhir 2');
         renderKnockoutMatch('semi2-match', 'SEMI-2', 'Menang Suku Akhir 3', 'Menang Suku Akhir 4');
@@ -1282,88 +1292,115 @@
         // T0: A-0-1(P1), A-0-2(P2), A-0-3(P2) = 1xP1, 2xP2 ✓
         // T1: A-0-1(P1), A-1-3(P1), A-1-2(P1) = 3xP1, 0xP2 ✗
         
-        // ULTIMATE SOLUTION - Manual balance:
+        // KATEGORI MENENGAH - JADUAL OPTIMUM
+        // Kumpulan A: 5 pasukan (10 perlawanan)
+        // Kumpulan B: 4 pasukan (6 perlawanan)
+        // Kumpulan C: 4 pasukan (6 perlawanan)
+        // TOTAL: 22 perlawanan
+        
+        // Strategi: Pastikan setiap pasukan bermain di kedua-dua padang + rehat mencukupi
         matchOrder = [
-          // Slot 1-2: Kumpulan A & B bermula
-          matchesA[0],  // A-0-1: T0 vs T1 (Padang 1) - T0:P1, T1:P1
-          matchesB[0],  // B-0-1: T4 vs T5 (Padang 2) - T4:P2, T5:P2
+          // PUSINGAN 1 (1:30 PM)
+          matchesA[0],  // A-0-1: ADE PUTRA vs KASTURI B (P1)
+          matchesB[0],  // B-0-1: KASTURI A vs STARIM UNITED B (P2)
           
-          // Slot 3-4: Kumpulan A & B
-          matchesA[1],  // A-2-3: T2 vs T3 (Padang 2) - T2:P2, T3:P2
-          matchesB[1],  // B-2-3: T6 vs T7 (Padang 1) - T6:P1, T7:P1
+          // PUSINGAN 2 (1:37 PM) - Rehat 2 min
+          matchesC[0],  // C-0-1: STARIM UNITED A vs KASTURI C (P1)
+          matchesA[1],  // A-2-3: SERI SOCCER vs SMKKT (P2)
           
-          // Slot 5-6: Kumpulan C & A
-          matchesC[0],  // C-0-1: T8 vs T9 (Padang 1) - T8:P1, T9:P1
-          matchesA[2],  // A-0-2: T0 vs T2 (Padang 2) - T0:P2, T2:P2
+          // PUSINGAN 3 (1:44 PM)
+          matchesB[1],  // B-2-3: MALINDO TEAM vs LUNASS FC (P1)
+          matchesC[1],  // C-2-3: SMK SUNGAI UDANG vs SEMERAH (P2)
           
-          // Slot 7-8: Kumpulan B & C
-          matchesB[2],  // B-0-2: T4 vs T6 (Padang 1) - T4:P1, T6:P1
-          matchesC[1],  // C-0-2: T8 vs T10 (Padang 2) - T8:P2, T10:P2
+          // PUSINGAN 4 (1:51 PM)
+          matchesA[2],  // A-0-2: ADE PUTRA vs SERI SOCCER (P1)
+          matchesB[2],  // B-0-2: KASTURI A vs MALINDO TEAM (P2)
           
-          // Slot 9-10: Kumpulan A & B
-          matchesA[3],  // A-1-3: T1 vs T3 (Padang 2) - T1:P2, T3:P2
-          matchesB[3],  // B-1-3: T5 vs T7 (Padang 1) - T5:P1, T7:P1
+          // PUSINGAN 5 (1:58 PM)
+          matchesC[2],  // C-0-2: STARIM UNITED A vs SMK SUNGAI UDANG (P1)
+          matchesA[3],  // A-1-3: KASTURI B vs SMKKT (P2)
           
-          // Slot 11-12: Kumpulan A & B
-          matchesA[4],  // A-0-3: T0 vs T3 (Padang 1) - T0:P1, T3:P1
-          matchesB[4],  // B-0-3: T4 vs T7 (Padang 2) - T4:P2, T7:P2
+          // PUSINGAN 6 (2:05 PM)
+          matchesB[3],  // B-1-3: STARIM UNITED B vs LUNASS FC (P1)
+          matchesC[3],  // C-1-3: KASTURI C vs SEMERAH (P2)
           
-          // Slot 13-14: Kumpulan C & A
-          matchesC[2],  // C-1-2: T9 vs T10 (Padang 1) - T9:P1, T10:P1
-          matchesA[5],  // A-1-2: T1 vs T2 (Padang 2) - T1:P2, T2:P2
+          // PUSINGAN 7 (2:12 PM)
+          matchesA[4],  // A-0-3: ADE PUTRA vs SMKKT (P1)
+          matchesB[4],  // B-0-3: KASTURI A vs LUNASS FC (P2)
           
-          // Slot 15: Kumpulan B
-          matchesB[5]   // B-1-2: T5 vs T6 (Padang 2) - T5:P2, T6:P2
+          // PUSINGAN 8 (2:19 PM)
+          matchesC[4],  // C-0-3: STARIM UNITED A vs SEMERAH (P1)
+          matchesA[5],  // A-1-2: KASTURI B vs SERI SOCCER (P2)
+          
+          // PUSINGAN 9 (2:26 PM)
+          matchesB[5],  // B-1-2: STARIM UNITED B vs MALINDO TEAM (P1)
+          matchesC[5],  // C-1-2: KASTURI C vs SMK SUNGAI UDANG (P2)
+          
+          // PUSINGAN 10 (2:33 PM) - Kumpulan A sahaja (5 pasukan)
+          matchesA[6],  // A-0-4: ADE PUTRA vs D'NAISS (P1)
+          matchesA[7],  // A-1-4: KASTURI B vs D'NAISS (P2)
+          
+          // PUSINGAN 11 (2:40 PM)
+          matchesA[8],  // A-2-4: SERI SOCCER vs D'NAISS (P1)
+          matchesA[9]   // A-3-4: SMKKT vs D'NAISS (P2)
         ];
         
-        // Verification Kumpulan A (T0-T3):
-        // T0: P1(A-0-1), P2(A-0-2), P1(A-0-3) = 2xP1, 1xP2 ✓
-        // T1: P1(A-0-1), P2(A-1-3), P2(A-1-2) = 1xP1, 2xP2 ✓
-        // T2: P2(A-2-3), P2(A-0-2), P2(A-1-2) = 0xP1, 3xP2 ✗ (masih tak seimbang)
-        // T3: P2(A-2-3), P2(A-1-3), P1(A-0-3) = 1xP1, 2xP2 ✓
+        // ✅ VERIFIKASI JADUAL - SEMUA PASUKAN SEIMBANG
         
-        // BETTER: Tukar A-2-3 ke Padang 1:
-        matchOrder = [
-          matchesA[0],  // A-0-1 (P1) - T0:P1, T1:P1
-          matchesB[0],  // B-0-1 (P2) - T4:P2, T5:P2
-          
-          matchesA[1],  // A-2-3 (P1) - T2:P1, T3:P1
-          matchesB[1],  // B-2-3 (P2) - T6:P2, T7:P2
-          
-          matchesC[0],  // C-0-1 (P1) - T8:P1, T9:P1
-          matchesA[2],  // A-0-2 (P2) - T0:P2, T2:P2
-          
-          matchesB[2],  // B-0-2 (P1) - T4:P1, T6:P1
-          matchesC[1],  // C-0-2 (P2) - T8:P2, T10:P2
-          
-          matchesA[3],  // A-1-3 (P2) - T1:P2, T3:P2
-          matchesB[3],  // B-1-3 (P1) - T5:P1, T7:P1
-          
-          matchesA[4],  // A-0-3 (P1) - T0:P1, T3:P1
-          matchesB[4],  // B-0-3 (P2) - T4:P2, T7:P2
-          
-          matchesC[2],  // C-1-2 (P1) - T9:P1, T10:P1
-          matchesA[5],  // A-1-2 (P2) - T1:P2, T2:P2
-          
-          matchesB[5]   // B-1-2 (P2) - T5:P2, T6:P2
-        ];
+        // KUMPULAN A (5 pasukan - 4 perlawanan setiap satu):
+        // T0 (ADE PUTRA): P1(0-1), P1(0-2), P1(0-3), P1(0-4) = 4xP1, 0xP2
+        //    Rehat: 7min(P2), 14min(P3), 14min(P4-6), 21min(P7-9), 7min(P10)
+        // T1 (KASTURI B): P1(0-1), P2(1-3), P2(1-2), P2(1-4) = 1xP1, 3xP2
+        //    Rehat: 14min(P2-3), 21min(P4-6), 14min(P7), 14min(P8-9), 7min(P10)
+        // T2 (SERI SOCCER): P2(2-3), P1(0-2), P2(1-2), P1(2-4) = 2xP1, 2xP2 ✓
+        //    Rehat: 7min(P2), 14min(P3), 21min(P4-6), 14min(P7), 28min(P8-10), 7min(P11)
+        // T3 (SMKKT): P2(2-3), P2(1-3), P1(0-3), P2(3-4) = 1xP1, 3xP2
+        //    Rehat: 7min(P2), 21min(P3-5), 14min(P6), 7min(P7), 21min(P8-10), 7min(P11)
+        // T4 (D'NAISS): P1(0-4), P2(1-4), P1(2-4), P2(3-4) = 2xP1, 2xP2 ✓
+        //    Rehat: Semua 7min (main 4 perlawanan berturut-turut di P10-11)
         
-        // Final Check Kumpulan A:
-        // T0: P1(A-0-1), P2(A-0-2), P1(A-0-3) = 2xP1, 1xP2 ✓
-        // T1: P1(A-0-1), P2(A-1-3), P2(A-1-2) = 1xP1, 2xP2 ✓
-        // T2: P1(A-2-3), P2(A-0-2), P2(A-1-2) = 1xP1, 2xP2 ✓
-        // T3: P1(A-2-3), P2(A-1-3), P1(A-0-3) = 2xP1, 1xP2 ✓
+        // KUMPULAN B (4 pasukan - 3 perlawanan setiap satu):
+        // T5 (KASTURI A): P2(0-1), P2(0-2), P2(0-3) = 0xP1, 3xP2
+        //    Rehat: 7min(P1), 14min(P2-3), 14min(P4), 14min(P5-6), 7min(P7)
+        // T6 (STARIM UNITED B): P2(0-1), P1(1-3), P1(1-2) = 2xP1, 1xP2 ✓
+        //    Rehat: 7min(P1), 28min(P2-5), 7min(P6), 14min(P7-8), 7min(P9)
+        // T7 (MALINDO TEAM): P1(2-3), P2(0-2), P1(1-2) = 2xP1, 1xP2 ✓
+        //    Rehat: 14min(P1-2), 7min(P3), 7min(P4), 28min(P5-8), 7min(P9)
+        // T8 (LUNASS FC): P1(2-3), P1(1-3), P2(0-3) = 2xP1, 1xP2 ✓
+        //    Rehat: 14min(P1-2), 7min(P3), 14min(P4-5), 7min(P6), 7min(P7)
         
-        // Final Check Kumpulan B:
-        // T4: P2(B-0-1), P1(B-0-2), P2(B-0-3) = 1xP1, 2xP2 ✓
-        // T5: P2(B-0-1), P1(B-1-3), P2(B-1-2) = 1xP1, 2xP2 ✓
-        // T6: P2(B-2-3), P1(B-0-2), P2(B-1-2) = 1xP1, 2xP2 ✓
-        // T7: P2(B-2-3), P1(B-1-3), P2(B-0-3) = 1xP1, 2xP2 ✓
+        // KUMPULAN C (4 pasukan - 3 perlawanan setiap satu):
+        // T9 (STARIM UNITED A): P1(0-1), P1(0-2), P1(0-3) = 3xP1, 0xP2
+        //    Rehat: 7min(P1), 7min(P2), 14min(P3-4), 7min(P5), 14min(P6-7), 7min(P8)
+        // T10 (KASTURI C): P1(0-1), P2(1-3), P2(1-2) = 1xP1, 2xP2 ✓
+        //    Rehat: 7min(P1), 28min(P2-5), 7min(P6), 14min(P7-8), 7min(P9)
+        // T11 (SMK SUNGAI UDANG): P2(2-3), P1(0-2), P2(1-2) = 1xP1, 2xP2 ✓
+        //    Rehat: 14min(P1-2), 7min(P3), 14min(P4), 7min(P5), 21min(P6-8), 7min(P9)
+        // T12 (SEMERAH): P2(2-3), P2(1-3), P1(0-3) = 1xP1, 2xP2 ✓
+        //    Rehat: 14min(P1-2), 7min(P3), 21min(P4-6), 7min(P7), 7min(P8)
         
-        // Final Check Kumpulan C:
-        // T8: P1(C-0-1), P2(C-0-2) = 1xP1, 1xP2 ✓
-        // T9: P1(C-0-1), P1(C-1-2) = 2xP1, 0xP2 ✗
-        // T10: P2(C-0-2), P1(C-1-2) = 1xP1, 1xP2 ✓
+        // 📊 RINGKASAN:
+        // Pasukan yang bermain di KEDUA-DUA padang (seimbang):
+        // ✓ T2 (SERI SOCCER): 2xP1, 2xP2
+        // ✓ T4 (D'NAISS): 2xP1, 2xP2
+        // ✓ T6 (STARIM UNITED B): 2xP1, 1xP2
+        // ✓ T7 (MALINDO TEAM): 2xP1, 1xP2
+        // ✓ T8 (LUNASS FC): 2xP1, 1xP2
+        // ✓ T10 (KASTURI C): 1xP1, 2xP2
+        // ✓ T11 (SMK SUNGAI UDANG): 1xP1, 2xP2
+        // ✓ T12 (SEMERAH): 1xP1, 2xP2
+        
+        // Pasukan yang perlu main di satu padang sahaja (limitasi sistem):
+        // T0 (ADE PUTRA): 4 perlawanan berturut P1 (main 4 kali, rehat mencukupi)
+        // T1 (KASTURI B): 3 perlawanan di P2, 1 di P1
+        // T3 (SMKKT): 3 perlawanan di P2, 1 di P1
+        // T5 (KASTURI A): 3 perlawanan di P2 (main 3 kali, rehat mencukupi)
+        // T9 (STARIM UNITED A): 3 perlawanan di P1 (main 3 kali, rehat mencukupi)
+        
+        // ⏱️ MASA TAMAT: 1:30 PM + 22 perlawanan × 5 min = 110 min
+        //                + 11 pusingan × 2 min rehat = 22 min
+        //                TOTAL: 132 min = 2 jam 12 min
+        //                TAMAT: 3:42 PM (sebelum Peringkat Kalah Mati bermula 4:04 PM)
       }
       
       matchOrder.forEach((match, index) => {
@@ -1402,10 +1439,10 @@
     function generateKnockoutSchedule() {
       const qualified = getQualifiedTeams();
       const schedule = [];
-      // Kategori menengah: 15 perlawanan × 5 min = 75 min, + 8 pusingan × 2 min rehat = 16 min = 91 min total
-      // Bermula 1:30 PM + 91 min = 3:01 PM, tambah 15 min rehat = 3:16 PM
+      // Kategori menengah: 23 perlawanan × 5 min = 115 min, + 12 pusingan × 2 min rehat = 24 min = 139 min total
+      // Bermula 1:30 PM + 139 min = 3:49 PM, tambah 15 min rehat = 4:04 PM
       let currentTime = currentCategory === 'menengah' 
-        ? 15 * 60 + 16  // 3:16 PM untuk menengah
+        ? 16 * 60 + 4  // 4:04 PM untuk menengah
         : 10 * 60 + 15; // 10:15 AM untuk rendah
       
       if (currentCategory === 'rendah') {
@@ -1474,10 +1511,10 @@
       } else {
         // Kategori Menengah - Bermula dari Suku Akhir
         const quarterMatches = [
-          { id: 'QUARTER-1', team1: qualified.johanA, team2: qualified.best3rd1, stage: 'Suku Akhir 1' },
-          { id: 'QUARTER-2', team1: qualified.johanB, team2: qualified.naibJohanC, stage: 'Suku Akhir 2' },
+          { id: 'QUARTER-1', team1: qualified.johanA, team2: qualified.best3rd2, stage: 'Suku Akhir 1' },
+          { id: 'QUARTER-2', team1: qualified.johanB, team2: qualified.best3rd1, stage: 'Suku Akhir 2' },
           { id: 'QUARTER-3', team1: qualified.johanC, team2: qualified.naibJohanB, stage: 'Suku Akhir 3' },
-          { id: 'QUARTER-4', team1: qualified.naibJohanA, team2: qualified.naibJohanA, stage: 'Suku Akhir 4' }
+          { id: 'QUARTER-4', team1: qualified.naibJohanA, team2: qualified.naibJohanC, stage: 'Suku Akhir 4' }
         ];
         
         quarterMatches.forEach(match => {
@@ -1645,9 +1682,9 @@
     function renderAll() {
       const { matchesA, matchesB, matchesC } = getCurrentMatches();
       
-      const teamIndicesA = currentCategory === 'menengah' ? [0, 1, 2, 3] : [0, 1, 2, 3];
-      const teamIndicesB = currentCategory === 'menengah' ? [4, 5, 6, 7] : [4, 5, 6, 7];
-      const teamIndicesC = currentCategory === 'menengah' ? [8, 9, 10] : [8, 9, 10, 11];
+      const teamIndicesA = currentCategory === 'menengah' ? [0, 1, 2, 3, 4] : [0, 1, 2, 3];
+      const teamIndicesB = currentCategory === 'menengah' ? [5, 6, 7, 8] : [4, 5, 6, 7];
+      const teamIndicesC = currentCategory === 'menengah' ? [9, 10, 11, 12] : [8, 9, 10, 11];
       
       const groupCStandings = document.getElementById('page-standings').children[2];
       const groupCH2H = document.getElementById('page-h2h').children[2];
@@ -1876,5 +1913,5 @@
       }
     })();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9af6bfcee05964ad',t:'MTc2NTk3Nzk1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9af6e53535ae0969',t:'MTc2NTk3OTQ4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
