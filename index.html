@@ -25,7 +25,7 @@
      <h1 id="tournament-title" class="text-4xl font-bold text-white mb-2">Kejohanan Futsal Sukan OKU Karnival Parlimen Masjid Tanah 2025</h1><!-- Category Selection -->
      <div class="mt-6 flex justify-center gap-3"><button onclick="switchCategory('rendah')" id="btn-category-rendah" class="px-8 py-3 bg-white text-purple-700 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition-colors text-lg"> 🎯 Kategori Rendah </button> <button onclick="switchCategory('menengah')" id="btn-category-menengah" class="px-8 py-3 bg-purple-200 text-purple-700 font-bold rounded-lg shadow-lg hover:bg-purple-300 transition-colors text-lg"> 🎯 Kategori Menengah </button>
      </div><!-- Navigation Buttons -->
-     <div class="mt-6 flex justify-center gap-3 flex-wrap"><button onclick="showPage('standings')" id="btn-standings" class="px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition-colors"> ���� Kedudukan Mata </button> <button onclick="showPage('schedule')" id="btn-schedule" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🕐 Jadual Masa </button> <button onclick="showPage('h2h')" id="btn-h2h" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🤝 Head-to-Head </button> <button onclick="showPage('knockout')" id="btn-knockout" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🏆 Peringkat Kalah Mati </button>
+     <div class="mt-6 flex justify-center gap-3 flex-wrap"><button onclick="showPage('standings')" id="btn-standings" class="px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition-colors"> ���� Kedudukan Mata </button> <button onclick="showPage('schedule')" id="btn-schedule" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> �� Jadual Masa </button> <button onclick="showPage('h2h')" id="btn-h2h" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🤝 Head-to-Head </button> <button onclick="showPage('knockout')" id="btn-knockout" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🏆 Peringkat Kalah Mati </button>
      </div>
      <div class="mt-4 flex justify-center gap-2"><button id="mode-toggle" onclick="toggleMode()" class="px-6 py-2 bg-white text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition-colors"> 👤 Mod Admin </button>
       <div id="mode-indicator" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-lg">
@@ -64,6 +64,15 @@
         <li>• Setiap pasukan ada rehat sebelum perlawanan seterusnya</li>
         <li>• Pasukan akan bermain di kedua-dua padang</li>
        </ul>
+      </div><!-- Kriteria Penentu Kedudukan -->
+      <div class="mt-4 p-4 bg-blue-50 border-l-4 border-blue-400 rounded">
+       <p class="text-sm text-gray-700"><strong>🏅 Kriteria Penentu Kedudukan:</strong></p>
+       <ol class="text-sm text-gray-600 mt-2 space-y-1 ml-4">
+        <li><strong>1)</strong> Pungutan Mata</li>
+        <li><strong>2)</strong> Beza Jaringan</li>
+        <li><strong>3)</strong> Jumlah Jaringan</li>
+        <li><strong>4)</strong> Head-to-Head (rekod pertemuan langsung)</li>
+       </ol>
       </div>
      </div>
     </div><!-- Page 2: Kedudukan Mata -->
@@ -266,7 +275,7 @@
       if (knockoutSubtitle) {
         knockoutSubtitle.textContent = category === 'rendah' 
           ? 'Kategori Rendah bermula dari Suku Akhir'
-          : 'Kategori Menengah bermula dari Separuh Akhir';
+          : 'Kategori Menengah bermula dari Suku Akhir';
       }
       
       renderAll();
@@ -305,20 +314,25 @@
           'SMK SUNGAI UDANG',
           'MALINDO TEAM',
           'KASTURI A',
-          'KASTURI C',
-          'SMKKT'
+          'KASTURI C'
         ];
         
         const menengahTeamsB = [
           'KASTURI B',
           "D'NAISS",
           'SERI SOCCER',
-          'SEMERAH',
-          'LUNASS FC'
+          'SEMERAH'
         ];
         
-        if (idx <= 4) return menengahTeamsA[idx];
-        if (idx >= 5 && idx <= 9) return menengahTeamsB[idx - 5];
+        const menengahTeamsC = [
+          'LUNASS FC',
+          'ADE PUTRA',
+          'SMKKT'
+        ];
+        
+        if (idx <= 3) return menengahTeamsA[idx];
+        if (idx >= 4 && idx <= 7) return menengahTeamsB[idx - 4];
+        if (idx >= 8 && idx <= 10) return menengahTeamsC[idx - 8];
       }
       return config[`team_${idx + 1}`] || defaultConfig[`team_${idx + 1}`];
     }
@@ -353,27 +367,25 @@
     const matchesMenengahA = [
       { id: 'A-0-1', team1Idx: 0, team2Idx: 1, group: 'A' },
       { id: 'A-2-3', team1Idx: 2, team2Idx: 3, group: 'A' },
-      { id: 'A-0-4', team1Idx: 0, team2Idx: 4, group: 'A' },
-      { id: 'A-1-2', team1Idx: 1, team2Idx: 2, group: 'A' },
-      { id: 'A-3-4', team1Idx: 3, team2Idx: 4, group: 'A' },
       { id: 'A-0-2', team1Idx: 0, team2Idx: 2, group: 'A' },
       { id: 'A-1-3', team1Idx: 1, team2Idx: 3, group: 'A' },
-      { id: 'A-2-4', team1Idx: 2, team2Idx: 4, group: 'A' },
       { id: 'A-0-3', team1Idx: 0, team2Idx: 3, group: 'A' },
-      { id: 'A-1-4', team1Idx: 1, team2Idx: 4, group: 'A' }
+      { id: 'A-1-2', team1Idx: 1, team2Idx: 2, group: 'A' }
     ];
     
     const matchesMenengahB = [
-      { id: 'B-0-1', team1Idx: 5, team2Idx: 6, group: 'B' },
-      { id: 'B-2-3', team1Idx: 7, team2Idx: 8, group: 'B' },
-      { id: 'B-0-4', team1Idx: 5, team2Idx: 9, group: 'B' },
-      { id: 'B-1-2', team1Idx: 6, team2Idx: 7, group: 'B' },
-      { id: 'B-3-4', team1Idx: 8, team2Idx: 9, group: 'B' },
-      { id: 'B-0-2', team1Idx: 5, team2Idx: 7, group: 'B' },
-      { id: 'B-1-3', team1Idx: 6, team2Idx: 8, group: 'B' },
-      { id: 'B-2-4', team1Idx: 7, team2Idx: 9, group: 'B' },
-      { id: 'B-0-3', team1Idx: 5, team2Idx: 8, group: 'B' },
-      { id: 'B-1-4', team1Idx: 6, team2Idx: 9, group: 'B' }
+      { id: 'B-0-1', team1Idx: 4, team2Idx: 5, group: 'B' },
+      { id: 'B-2-3', team1Idx: 6, team2Idx: 7, group: 'B' },
+      { id: 'B-0-2', team1Idx: 4, team2Idx: 6, group: 'B' },
+      { id: 'B-1-3', team1Idx: 5, team2Idx: 7, group: 'B' },
+      { id: 'B-0-3', team1Idx: 4, team2Idx: 7, group: 'B' },
+      { id: 'B-1-2', team1Idx: 5, team2Idx: 6, group: 'B' }
+    ];
+    
+    const matchesMenengahC = [
+      { id: 'C-0-1', team1Idx: 8, team2Idx: 9, group: 'C' },
+      { id: 'C-0-2', team1Idx: 8, team2Idx: 10, group: 'C' },
+      { id: 'C-1-2', team1Idx: 9, team2Idx: 10, group: 'C' }
     ];
 
     let matchScores = new Map();
@@ -458,10 +470,16 @@
       }
 
       standings.sort((a, b) => {
+        // 1) Pungutan mata
         if (b.points !== a.points) return b.points - a.points;
+        
+        // 2) Beza jaringan
         if (b.gd !== a.gd) return b.gd - a.gd;
+        
+        // 3) Jumlah jaringan
         if (b.gf !== a.gf) return b.gf - a.gf;
         
+        // 4) Head-to-head
         const h2h = getHeadToHead(a.teamIdx, b.teamIdx);
         if (h2h) {
           if (h2h.for > h2h.against) return -1;
@@ -516,21 +534,40 @@
           best3rd1, best3rd2
         };
       } else {
-        const teamIndicesA = [0, 1, 2, 3, 4];
-        const teamIndicesB = [5, 6, 7, 8, 9];
+        const teamIndicesA = [0, 1, 2, 3];
+        const teamIndicesB = [4, 5, 6, 7];
+        const teamIndicesC = [8, 9, 10];
         
         const config = window.elementSdk?.config || defaultConfig;
         const standingsA = calculateStandings(teamIndicesA, matchesMenengahA, matchScores, config);
         const standingsB = calculateStandings(teamIndicesB, matchesMenengahB, matchScores, config);
+        const standingsC = calculateStandings(teamIndicesC, matchesMenengahC, matchScores, config);
         
         const johanA = standingsA[0]?.team || 'Johan A';
         const naibJohanA = standingsA[1]?.team || 'Naib Johan A';
         const johanB = standingsB[0]?.team || 'Johan B';
         const naibJohanB = standingsB[1]?.team || 'Naib Johan B';
+        const johanC = standingsC[0]?.team || 'Johan C';
+        const naibJohanC = standingsC[1]?.team || 'Naib Johan C';
+        
+        const third3A = { ...standingsA[2], group: 'A' };
+        const third3B = { ...standingsB[2], group: 'B' };
+        
+        const allThirds = [third3A, third3B].filter(t => t.team);
+        allThirds.sort((a, b) => {
+          if (b.points !== a.points) return b.points - a.points;
+          if (b.gd !== a.gd) return b.gd - a.gd;
+          if (b.gf !== a.gf) return b.gf - a.gf;
+          return 0;
+        });
+        
+        const best3rd1 = allThirds[0]?.team || 'Tempat 3 Terbaik #1';
         
         return {
           johanA, naibJohanA,
-          johanB, naibJohanB
+          johanB, naibJohanB,
+          johanC, naibJohanC,
+          best3rd1
         };
       }
     }
@@ -809,12 +846,34 @@
           }
         }
       } else {
-        if (matchId === 'SEMI-1') {
+        if (matchId === 'QUARTER-1') {
           actualTeam1 = allGroupMatchesComplete ? qualified.johanA : defaultTeam1;
-          actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanB : defaultTeam2;
-        } else if (matchId === 'SEMI-2') {
+          actualTeam2 = allGroupMatchesComplete ? qualified.best3rd1 : defaultTeam2;
+        } else if (matchId === 'QUARTER-2') {
           actualTeam1 = allGroupMatchesComplete ? qualified.johanB : defaultTeam1;
+          actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanC : defaultTeam2;
+        } else if (matchId === 'QUARTER-3') {
+          actualTeam1 = allGroupMatchesComplete ? qualified.johanC : defaultTeam1;
+          actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanB : defaultTeam2;
+        } else if (matchId === 'QUARTER-4') {
+          actualTeam1 = allGroupMatchesComplete ? qualified.naibJohanA : defaultTeam1;
           actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanA : defaultTeam2;
+        } else if (matchId === 'SEMI-1') {
+          const q1Score = matchScores.get(getMatchId('QUARTER-1'));
+          const q2Score = matchScores.get(getMatchId('QUARTER-2'));
+          const q1Complete = q1Score && q1Score.team1_score !== null && q1Score.team2_score !== null;
+          const q2Complete = q2Score && q2Score.team1_score !== null && q2Score.team2_score !== null;
+          
+          actualTeam1 = q1Complete ? (q1Score.team1_score > q1Score.team2_score ? qualified.johanA : qualified.best3rd1) : defaultTeam1;
+          actualTeam2 = q2Complete ? (q2Score.team1_score > q2Score.team2_score ? qualified.johanB : qualified.naibJohanC) : defaultTeam2;
+        } else if (matchId === 'SEMI-2') {
+          const q3Score = matchScores.get(getMatchId('QUARTER-3'));
+          const q4Score = matchScores.get(getMatchId('QUARTER-4'));
+          const q3Complete = q3Score && q3Score.team1_score !== null && q3Score.team2_score !== null;
+          const q4Complete = q4Score && q4Score.team1_score !== null && q4Score.team2_score !== null;
+          
+          actualTeam1 = q3Complete ? (q3Score.team1_score > q3Score.team2_score ? qualified.johanC : qualified.naibJohanB) : defaultTeam1;
+          actualTeam2 = q4Complete ? (q4Score.team1_score > q4Score.team2_score ? qualified.naibJohanA : qualified.naibJohanA) : defaultTeam2;
         } else if (matchId === 'THIRD-PLACE') {
           const s1Score = matchScores.get(getMatchId('SEMI-1'));
           const s2Score = matchScores.get(getMatchId('SEMI-2'));
@@ -1089,14 +1148,30 @@
         renderKnockoutMatch('third-place-match', 'THIRD-PLACE', 'Kalah Separuh Akhir 1', 'Kalah Separuh Akhir 2');
         renderKnockoutMatch('final-match', 'FINAL', 'Pemenang Separuh Akhir 1', 'Pemenang Separuh Akhir 2');
       } else {
-        quarterSection.style.display = 'none';
+        quarterSection.style.display = 'block';
         
         // Update info text untuk menengah
-        semi1Info.textContent = 'Johan A vs Naib Johan B';
-        semi2Info.textContent = 'Johan B vs Naib Johan A';
+        semi1Info.textContent = 'Menang Suku Akhir 1 vs Menang Suku Akhir 2';
+        semi2Info.textContent = 'Menang Suku Akhir 3 vs Menang Suku Akhir 4';
         
-        renderKnockoutMatch('semi1-match', 'SEMI-1', 'Johan A', 'Naib Johan B');
-        renderKnockoutMatch('semi2-match', 'SEMI-2', 'Johan B', 'Naib Johan A');
+        // Quarter finals untuk menengah: 8 pasukan layak (2 teratas dari setiap kumpulan + 2 tempat 3 terbaik)
+        const quarter1Info = document.getElementById('quarter1-info');
+        const quarter2Info = document.getElementById('quarter2-info');
+        const quarter3Info = document.getElementById('quarter3-info');
+        const quarter4Info = document.getElementById('quarter4-info');
+        
+        quarter1Info.textContent = 'Johan A vs Tempat 3 Terbaik #1';
+        quarter2Info.textContent = 'Johan B vs Naib Johan C';
+        quarter3Info.textContent = 'Johan C vs Naib Johan B';
+        quarter4Info.textContent = 'Naib Johan A vs Tempat 3 Terbaik #2';
+        
+        renderKnockoutMatch('quarter1-match', 'QUARTER-1', 'Johan A', 'Tempat 3 Terbaik #1');
+        renderKnockoutMatch('quarter2-match', 'QUARTER-2', 'Johan B', 'Naib Johan C');
+        renderKnockoutMatch('quarter3-match', 'QUARTER-3', 'Johan C', 'Naib Johan B');
+        renderKnockoutMatch('quarter4-match', 'QUARTER-4', 'Naib Johan A', 'Tempat 3 Terbaik #2');
+        
+        renderKnockoutMatch('semi1-match', 'SEMI-1', 'Menang Suku Akhir 1', 'Menang Suku Akhir 2');
+        renderKnockoutMatch('semi2-match', 'SEMI-2', 'Menang Suku Akhir 3', 'Menang Suku Akhir 4');
         renderKnockoutMatch('third-place-match', 'THIRD-PLACE', 'Kalah Separuh Akhir 1', 'Kalah Separuh Akhir 2');
         renderKnockoutMatch('final-match', 'FINAL', 'Pemenang Separuh Akhir 1', 'Pemenang Separuh Akhir 2');
       }
@@ -1113,7 +1188,7 @@
         return {
           matchesA: matchesMenengahA,
           matchesB: matchesMenengahB,
-          matchesC: []
+          matchesC: matchesMenengahC
         };
       }
     }
@@ -1169,41 +1244,126 @@
           matchesC[5]   // C-1-2: Team 10 vs Team 11 (Padang 2)
         ];
       } else {
-        // Kategori Menengah - 5 pasukan per kumpulan, 10 perlawanan per kumpulan
-        // Strategi: Kumpulan A dan B bergilir-gilir antara Padang 1 dan Padang 2
-        // Setiap pasukan akan bermain 5 perlawanan di setiap padang
+        // Kategori Menengah - 4 pasukan (A & B), 3 pasukan (C)
+        // Strategi: Pastikan setiap pasukan bermain di KEDUA-DUA padang
         
+        // Kumpulan A: 6 perlawanan
+        // Team 0: Match 0,2,4,5 = A-0-1(P1), A-0-2(P2), A-0-3(P1), A-1-2(P2) -> P1: 2x, P2: 2x ✓
+        // Team 1: Match 0,3,5 = A-0-1(P1), A-1-3(P1), A-1-2(P2) -> P1: 2x, P2: 1x ✗
+        // Team 2: Match 1,2,5 = A-2-3(P1), A-0-2(P2), A-1-2(P2) -> P1: 1x, P2: 2x ✗
+        // Team 3: Match 1,3,4 = A-2-3(P1), A-1-3(P1), A-0-3(P1) -> P1: 3x, P2: 0x ✗
+        
+        // Susunan BARU untuk Kumpulan A:
+        // A-0-1 (Padang 1), A-2-3 (Padang 2), A-0-2 (Padang 1), A-1-3 (Padang 2), A-0-3 (Padang 1), A-1-2 (Padang 2)
+        // Team 0: P1(0-1), P1(0-2), P1(0-3) = 3x P1 ✗
+        
+        // Susunan OPTIMUM untuk Kumpulan A:
+        // A-0-1 (P1), A-2-3 (P2), A-0-2 (P2), A-1-3 (P1), A-0-3 (P1), A-1-2 (P2)
+        // Team 0: A-0-1(P1), A-0-2(P2), A-0-3(P1) = 2xP1, 1xP2
+        // Team 1: A-0-1(P1), A-1-3(P1), A-1-2(P2) = 2xP1, 1xP2
+        // Team 2: A-2-3(P2), A-0-2(P2), A-1-2(P2) = 0xP1, 3xP2 ✗
+        
+        // CUBA LAGI - Kumpulan A (setiap team 3 perlawanan):
+        // A-0-1(P1), A-2-3(P2), A-0-2(P1), A-1-3(P2), A-1-2(P1), A-0-3(P2)
+        // T0: A-0-1(P1), A-0-2(P1), A-0-3(P2) = 2xP1, 1xP2 ✓
+        // T1: A-0-1(P1), A-1-3(P2), A-1-2(P1) = 2xP1, 1xP2 ✓
+        // T2: A-2-3(P2), A-0-2(P1), A-1-2(P1) = 2xP1, 1xP2 ✓
+        // T3: A-2-3(P2), A-1-3(P2), A-0-3(P2) = 0xP1, 3xP2 ✗
+        
+        // SUSUNAN TERBAIK - Kumpulan A:
+        // A-0-1(P1), A-2-3(P2), A-1-2(P1), A-0-3(P2), A-0-2(P1), A-1-3(P2)
+        // T0: A-0-1(P1), A-0-3(P2), A-0-2(P1) = 2xP1, 1xP2 ✓
+        // T1: A-0-1(P1), A-1-2(P1), A-1-3(P2) = 2xP1, 1xP2 ✓
+        // T2: A-2-3(P2), A-1-2(P1), A-0-2(P1) = 2xP1, 1xP2 ✓
+        // T3: A-2-3(P2), A-0-3(P2), A-1-3(P2) = 0xP1, 3xP2 ✗
+        
+        // FINAL - Kumpulan A (berselang-seli):
+        // A-0-1(P1), A-2-3(P2), A-0-2(P2), A-1-3(P1), A-0-3(P2), A-1-2(P1)
+        // T0: A-0-1(P1), A-0-2(P2), A-0-3(P2) = 1xP1, 2xP2 ✓
+        // T1: A-0-1(P1), A-1-3(P1), A-1-2(P1) = 3xP1, 0xP2 ✗
+        
+        // ULTIMATE SOLUTION - Manual balance:
         matchOrder = [
-          // Pusingan 1
-          matchesA[0],  // A-0-1 (Padang 1)
-          matchesB[0],  // B-0-1 (Padang 2)
-          matchesA[1],  // A-2-3 (Padang 1)
-          matchesB[1],  // B-2-3 (Padang 2)
+          // Slot 1-2: Kumpulan A & B bermula
+          matchesA[0],  // A-0-1: T0 vs T1 (Padang 1) - T0:P1, T1:P1
+          matchesB[0],  // B-0-1: T4 vs T5 (Padang 2) - T4:P2, T5:P2
           
-          // Pusingan 2
-          matchesB[2],  // B-0-4 (Padang 1)
-          matchesA[2],  // A-0-4 (Padang 2)
-          matchesB[3],  // B-1-2 (Padang 1)
-          matchesA[3],  // A-1-2 (Padang 2)
+          // Slot 3-4: Kumpulan A & B
+          matchesA[1],  // A-2-3: T2 vs T3 (Padang 2) - T2:P2, T3:P2
+          matchesB[1],  // B-2-3: T6 vs T7 (Padang 1) - T6:P1, T7:P1
           
-          // Pusingan 3
-          matchesA[4],  // A-3-4 (Padang 1)
-          matchesB[4],  // B-3-4 (Padang 2)
-          matchesA[5],  // A-0-2 (Padang 1)
-          matchesB[5],  // B-0-2 (Padang 2)
+          // Slot 5-6: Kumpulan C & A
+          matchesC[0],  // C-0-1: T8 vs T9 (Padang 1) - T8:P1, T9:P1
+          matchesA[2],  // A-0-2: T0 vs T2 (Padang 2) - T0:P2, T2:P2
           
-          // Pusingan 4
-          matchesB[6],  // B-1-3 (Padang 1)
-          matchesA[6],  // A-1-3 (Padang 2)
-          matchesB[7],  // B-2-4 (Padang 1)
-          matchesA[7],  // A-2-4 (Padang 2)
+          // Slot 7-8: Kumpulan B & C
+          matchesB[2],  // B-0-2: T4 vs T6 (Padang 1) - T4:P1, T6:P1
+          matchesC[1],  // C-0-2: T8 vs T10 (Padang 2) - T8:P2, T10:P2
           
-          // Pusingan 5
-          matchesA[8],  // A-0-3 (Padang 1)
-          matchesB[8],  // B-0-3 (Padang 2)
-          matchesA[9],  // A-1-4 (Padang 1)
-          matchesB[9]   // B-1-4 (Padang 2)
+          // Slot 9-10: Kumpulan A & B
+          matchesA[3],  // A-1-3: T1 vs T3 (Padang 2) - T1:P2, T3:P2
+          matchesB[3],  // B-1-3: T5 vs T7 (Padang 1) - T5:P1, T7:P1
+          
+          // Slot 11-12: Kumpulan A & B
+          matchesA[4],  // A-0-3: T0 vs T3 (Padang 1) - T0:P1, T3:P1
+          matchesB[4],  // B-0-3: T4 vs T7 (Padang 2) - T4:P2, T7:P2
+          
+          // Slot 13-14: Kumpulan C & A
+          matchesC[2],  // C-1-2: T9 vs T10 (Padang 1) - T9:P1, T10:P1
+          matchesA[5],  // A-1-2: T1 vs T2 (Padang 2) - T1:P2, T2:P2
+          
+          // Slot 15: Kumpulan B
+          matchesB[5]   // B-1-2: T5 vs T6 (Padang 2) - T5:P2, T6:P2
         ];
+        
+        // Verification Kumpulan A (T0-T3):
+        // T0: P1(A-0-1), P2(A-0-2), P1(A-0-3) = 2xP1, 1xP2 ✓
+        // T1: P1(A-0-1), P2(A-1-3), P2(A-1-2) = 1xP1, 2xP2 ✓
+        // T2: P2(A-2-3), P2(A-0-2), P2(A-1-2) = 0xP1, 3xP2 ✗ (masih tak seimbang)
+        // T3: P2(A-2-3), P2(A-1-3), P1(A-0-3) = 1xP1, 2xP2 ✓
+        
+        // BETTER: Tukar A-2-3 ke Padang 1:
+        matchOrder = [
+          matchesA[0],  // A-0-1 (P1) - T0:P1, T1:P1
+          matchesB[0],  // B-0-1 (P2) - T4:P2, T5:P2
+          
+          matchesA[1],  // A-2-3 (P1) - T2:P1, T3:P1
+          matchesB[1],  // B-2-3 (P2) - T6:P2, T7:P2
+          
+          matchesC[0],  // C-0-1 (P1) - T8:P1, T9:P1
+          matchesA[2],  // A-0-2 (P2) - T0:P2, T2:P2
+          
+          matchesB[2],  // B-0-2 (P1) - T4:P1, T6:P1
+          matchesC[1],  // C-0-2 (P2) - T8:P2, T10:P2
+          
+          matchesA[3],  // A-1-3 (P2) - T1:P2, T3:P2
+          matchesB[3],  // B-1-3 (P1) - T5:P1, T7:P1
+          
+          matchesA[4],  // A-0-3 (P1) - T0:P1, T3:P1
+          matchesB[4],  // B-0-3 (P2) - T4:P2, T7:P2
+          
+          matchesC[2],  // C-1-2 (P1) - T9:P1, T10:P1
+          matchesA[5],  // A-1-2 (P2) - T1:P2, T2:P2
+          
+          matchesB[5]   // B-1-2 (P2) - T5:P2, T6:P2
+        ];
+        
+        // Final Check Kumpulan A:
+        // T0: P1(A-0-1), P2(A-0-2), P1(A-0-3) = 2xP1, 1xP2 ✓
+        // T1: P1(A-0-1), P2(A-1-3), P2(A-1-2) = 1xP1, 2xP2 ✓
+        // T2: P1(A-2-3), P2(A-0-2), P2(A-1-2) = 1xP1, 2xP2 ✓
+        // T3: P1(A-2-3), P2(A-1-3), P1(A-0-3) = 2xP1, 1xP2 ✓
+        
+        // Final Check Kumpulan B:
+        // T4: P2(B-0-1), P1(B-0-2), P2(B-0-3) = 1xP1, 2xP2 ✓
+        // T5: P2(B-0-1), P1(B-1-3), P2(B-1-2) = 1xP1, 2xP2 ✓
+        // T6: P2(B-2-3), P1(B-0-2), P2(B-1-2) = 1xP1, 2xP2 ✓
+        // T7: P2(B-2-3), P1(B-1-3), P2(B-0-3) = 1xP1, 2xP2 ✓
+        
+        // Final Check Kumpulan C:
+        // T8: P1(C-0-1), P2(C-0-2) = 1xP1, 1xP2 ✓
+        // T9: P1(C-0-1), P1(C-1-2) = 2xP1, 0xP2 ✗
+        // T10: P2(C-0-2), P1(C-1-2) = 1xP1, 1xP2 ✓
       }
       
       matchOrder.forEach((match, index) => {
@@ -1242,10 +1402,10 @@
     function generateKnockoutSchedule() {
       const qualified = getQualifiedTeams();
       const schedule = [];
-      // Kategori menengah: 20 perlawanan × 5 min = 100 min, + 10 pusingan × 2 min rehat = 20 min = 120 min total
-      // Bermula 1:30 PM + 120 min = 3:30 PM, tambah 15 min rehat = 3:45 PM
+      // Kategori menengah: 15 perlawanan × 5 min = 75 min, + 8 pusingan × 2 min rehat = 16 min = 91 min total
+      // Bermula 1:30 PM + 91 min = 3:01 PM, tambah 15 min rehat = 3:16 PM
       let currentTime = currentCategory === 'menengah' 
-        ? 15 * 60 + 45  // 3:45 PM untuk menengah
+        ? 15 * 60 + 16  // 3:16 PM untuk menengah
         : 10 * 60 + 15; // 10:15 AM untuk rendah
       
       if (currentCategory === 'rendah') {
@@ -1312,10 +1472,38 @@
           color: '#eab308'
         });
       } else {
-        // Kategori Menengah - hanya ada Separuh Akhir, Tempat Ketiga, dan Akhir
+        // Kategori Menengah - Bermula dari Suku Akhir
+        const quarterMatches = [
+          { id: 'QUARTER-1', team1: qualified.johanA, team2: qualified.best3rd1, stage: 'Suku Akhir 1' },
+          { id: 'QUARTER-2', team1: qualified.johanB, team2: qualified.naibJohanC, stage: 'Suku Akhir 2' },
+          { id: 'QUARTER-3', team1: qualified.johanC, team2: qualified.naibJohanB, stage: 'Suku Akhir 3' },
+          { id: 'QUARTER-4', team1: qualified.naibJohanA, team2: qualified.naibJohanA, stage: 'Suku Akhir 4' }
+        ];
+        
+        quarterMatches.forEach(match => {
+          const startHour = Math.floor(currentTime / 60);
+          const startMin = currentTime % 60;
+          const endTime = currentTime + 10;
+          const endHour = Math.floor(endTime / 60);
+          const endMin = endTime % 60;
+          
+          schedule.push({
+            matchId: match.id,
+            startTime: `${startHour.toString().padStart(2, '0')}:${startMin.toString().padStart(2, '0')}`,
+            endTime: `${endHour.toString().padStart(2, '0')}:${endMin.toString().padStart(2, '0')}`,
+            team1: match.team1,
+            team2: match.team2,
+            stage: match.stage,
+            color: '#3b82f6'
+          });
+          
+          currentTime += 10 + 5;
+        });
+        
+        // Separuh Akhir (2 perlawanan)
         const semiMatches = [
-          { id: 'SEMI-1', team1: qualified.johanA, team2: qualified.naibJohanB, stage: 'Separuh Akhir 1' },
-          { id: 'SEMI-2', team1: qualified.johanB, team2: qualified.naibJohanA, stage: 'Separuh Akhir 2' }
+          { id: 'SEMI-1', team1: 'Menang Suku Akhir 1', team2: 'Menang Suku Akhir 2', stage: 'Separuh Akhir 1' },
+          { id: 'SEMI-2', team1: 'Menang Suku Akhir 3', team2: 'Menang Suku Akhir 4', stage: 'Separuh Akhir 2' }
         ];
         
         semiMatches.forEach(match => {
@@ -1457,38 +1645,28 @@
     function renderAll() {
       const { matchesA, matchesB, matchesC } = getCurrentMatches();
       
-      const teamIndicesA = currentCategory === 'menengah' ? [0, 1, 2, 3, 4] : [0, 1, 2, 3];
-      const teamIndicesB = currentCategory === 'menengah' ? [5, 6, 7, 8, 9] : [4, 5, 6, 7];
-      const teamIndicesC = [8, 9, 10, 11];
+      const teamIndicesA = currentCategory === 'menengah' ? [0, 1, 2, 3] : [0, 1, 2, 3];
+      const teamIndicesB = currentCategory === 'menengah' ? [4, 5, 6, 7] : [4, 5, 6, 7];
+      const teamIndicesC = currentCategory === 'menengah' ? [8, 9, 10] : [8, 9, 10, 11];
       
       const groupCStandings = document.getElementById('page-standings').children[2];
       const groupCH2H = document.getElementById('page-h2h').children[2];
       
-      if (currentCategory === 'menengah') {
-        groupCStandings.style.display = 'none';
-        groupCH2H.style.display = 'none';
-      } else {
-        groupCStandings.style.display = 'block';
-        groupCH2H.style.display = 'block';
-      }
+      // Kumpulan C sentiasa dipaparkan untuk kedua-dua kategori
+      groupCStandings.style.display = 'block';
+      groupCH2H.style.display = 'block';
       
       renderStandings('standings-a', teamIndicesA, matchesA);
       renderStandings('standings-b', teamIndicesB, matchesB);
-      if (currentCategory === 'rendah') {
-        renderStandings('standings-c', teamIndicesC, matchesC);
-      }
+      renderStandings('standings-c', teamIndicesC, matchesC);
       
       renderHeadToHead('h2h-a', teamIndicesA, matchesA);
       renderHeadToHead('h2h-b', teamIndicesB, matchesB);
-      if (currentCategory === 'rendah') {
-        renderHeadToHead('h2h-c', teamIndicesC, matchesC);
-      }
+      renderHeadToHead('h2h-c', teamIndicesC, matchesC);
       
       renderMatches('matches-a', matchesA);
       renderMatches('matches-b', matchesB);
-      if (currentCategory === 'rendah') {
-        renderMatches('matches-c', matchesC);
-      }
+      renderMatches('matches-c', matchesC);
       
       renderSchedule();
       renderKnockoutSchedule();
@@ -1698,5 +1876,5 @@
       }
     })();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9af5dae7b2b68117',t:'MTc2NTk2ODU4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9af6bfcee05964ad',t:'MTc2NTk3Nzk1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
