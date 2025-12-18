@@ -1001,10 +1001,21 @@
       const score2Input = document.getElementById(`score-${matchId}-2`);
       const saveBtn = document.getElementById(`btn-${matchId}`);
       
+      if (!score1Input || !score2Input || !saveBtn) {
+        console.error('Input elements not found');
+        return;
+      }
+      
       const score1 = score1Input.value === '' ? null : parseInt(score1Input.value);
       const score2 = score2Input.value === '' ? null : parseInt(score2Input.value);
 
-      if (score1 === null || score2 === null) {
+      if (score1 === null || score2 === null || isNaN(score1) || isNaN(score2)) {
+        alert('Sila masukkan markah yang sah untuk kedua-dua pasukan');
+        return;
+      }
+
+      if (score1 < 0 || score2 < 0) {
+        alert('Markah tidak boleh negatif');
         return;
       }
 
@@ -1015,33 +1026,46 @@
 
       const existingScore = matchScores.get(getMatchId(matchId));
       
-      if (existingScore && existingScore.__backendId) {
-        const result = await window.dataSdk.update({
-          ...existingScore,
-          team1_score: score1,
-          team2_score: score2
-        });
-        
-        if (!result.isOk) {
-          score1Input.disabled = false;
-          score2Input.disabled = false;
-          saveBtn.disabled = false;
-          saveBtn.textContent = 'Kemaskini';
+      try {
+        if (existingScore && existingScore.__backendId) {
+          const result = await window.dataSdk.update({
+            ...existingScore,
+            team1_score: score1,
+            team2_score: score2
+          });
+          
+          if (!result.isOk) {
+            console.error('Failed to update score:', result.error);
+            alert('Gagal mengemaskini markah. Sila cuba lagi.');
+            score1Input.disabled = false;
+            score2Input.disabled = false;
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Kemaskini';
+          }
+        } else {
+          const result = await window.dataSdk.create({
+            match_id: getMatchId(matchId),
+            category: currentCategory,
+            team1_score: score1,
+            team2_score: score2
+          });
+          
+          if (!result.isOk) {
+            console.error('Failed to create score:', result.error);
+            alert('Gagal menyimpan markah. Sila cuba lagi.');
+            score1Input.disabled = false;
+            score2Input.disabled = false;
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Simpan';
+          }
         }
-      } else {
-        const result = await window.dataSdk.create({
-          match_id: getMatchId(matchId),
-          category: currentCategory,
-          team1_score: score1,
-          team2_score: score2
-        });
-        
-        if (!result.isOk) {
-          score1Input.disabled = false;
-          score2Input.disabled = false;
-          saveBtn.disabled = false;
-          saveBtn.textContent = 'Simpan';
-        }
+      } catch (error) {
+        console.error('Error saving score:', error);
+        alert('Ralat berlaku semasa menyimpan markah');
+        score1Input.disabled = false;
+        score2Input.disabled = false;
+        saveBtn.disabled = false;
+        saveBtn.textContent = existingScore ? 'Kemaskini' : 'Simpan';
       }
     }
 
@@ -1052,13 +1076,30 @@
       const score2Input = document.getElementById(`score-${matchId}-2`);
       const saveBtn = document.getElementById(`btn-${matchId}`);
       
+      if (!team1Input || !team2Input || !score1Input || !score2Input || !saveBtn) {
+        console.error('Input elements not found');
+        return;
+      }
+      
       const team1Name = team1Input.value.trim();
       const team2Name = team2Input.value.trim();
       const score1 = score1Input.value === '' ? null : parseInt(score1Input.value);
       const score2 = score2Input.value === '' ? null : parseInt(score2Input.value);
 
       if (!team1Name || !team2Name) {
+        alert('Sila masukkan nama kedua-dua pasukan');
         return;
+      }
+
+      if (score1 !== null && score2 !== null) {
+        if (isNaN(score1) || isNaN(score2)) {
+          alert('Sila masukkan markah yang sah');
+          return;
+        }
+        if (score1 < 0 || score2 < 0) {
+          alert('Markah tidak boleh negatif');
+          return;
+        }
       }
 
       team1Input.disabled = true;
@@ -1070,41 +1111,56 @@
 
       const existingScore = matchScores.get(getMatchId(matchId));
       
-      if (existingScore && existingScore.__backendId) {
-        const result = await window.dataSdk.update({
-          ...existingScore,
-          team1_name: team1Name,
-          team2_name: team2Name,
-          team1_score: score1,
-          team2_score: score2
-        });
-        
-        if (!result.isOk) {
-          team1Input.disabled = false;
-          team2Input.disabled = false;
-          score1Input.disabled = false;
-          score2Input.disabled = false;
-          saveBtn.disabled = false;
-          saveBtn.textContent = 'Kemaskini Keputusan';
+      try {
+        if (existingScore && existingScore.__backendId) {
+          const result = await window.dataSdk.update({
+            ...existingScore,
+            team1_name: team1Name,
+            team2_name: team2Name,
+            team1_score: score1,
+            team2_score: score2
+          });
+          
+          if (!result.isOk) {
+            console.error('Failed to update knockout score:', result.error);
+            alert('Gagal mengemaskini keputusan. Sila cuba lagi.');
+            team1Input.disabled = false;
+            team2Input.disabled = false;
+            score1Input.disabled = false;
+            score2Input.disabled = false;
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Kemaskini Keputusan';
+          }
+        } else {
+          const result = await window.dataSdk.create({
+            match_id: getMatchId(matchId),
+            category: currentCategory,
+            team1_name: team1Name,
+            team2_name: team2Name,
+            team1_score: score1,
+            team2_score: score2
+          });
+          
+          if (!result.isOk) {
+            console.error('Failed to create knockout score:', result.error);
+            alert('Gagal menyimpan keputusan. Sila cuba lagi.');
+            team1Input.disabled = false;
+            team2Input.disabled = false;
+            score1Input.disabled = false;
+            score2Input.disabled = false;
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Simpan Keputusan';
+          }
         }
-      } else {
-        const result = await window.dataSdk.create({
-          match_id: getMatchId(matchId),
-          category: currentCategory,
-          team1_name: team1Name,
-          team2_name: team2Name,
-          team1_score: score1,
-          team2_score: score2
-        });
-        
-        if (!result.isOk) {
-          team1Input.disabled = false;
-          team2Input.disabled = false;
-          score1Input.disabled = false;
-          score2Input.disabled = false;
-          saveBtn.disabled = false;
-          saveBtn.textContent = 'Simpan Keputusan';
-        }
+      } catch (error) {
+        console.error('Error saving knockout score:', error);
+        alert('Ralat berlaku semasa menyimpan keputusan');
+        team1Input.disabled = false;
+        team2Input.disabled = false;
+        score1Input.disabled = false;
+        score2Input.disabled = false;
+        saveBtn.disabled = false;
+        saveBtn.textContent = existingScore ? 'Kemaskini Keputusan' : 'Simpan Keputusan';
       }
     }
 
@@ -1913,5 +1969,5 @@
       }
     })();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9af6e53535ae0969',t:'MTc2NTk3OTQ4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afae51003a77e7f',t:'MTc2NjAyMTQyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
