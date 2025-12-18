@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jadual Perlawanan Futsal</title>
-  <script src="/_sdk/data_sdk.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script><!-- Firebase SDK v9 Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -15,8 +16,44 @@
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
+    
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+      max-width: 400px;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .toast.success {
+      border-left: 4px solid #10b981;
+    }
+    
+    .toast.error {
+      border-left: 4px solid #ef4444;
+    }
   </style>
   <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full">
   <div id="app" class="w-full h-full overflow-auto" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
@@ -25,7 +62,7 @@
      <h1 id="tournament-title" class="text-4xl font-bold text-white mb-2">Kejohanan Futsal Sukan OKU Karnival Parlimen Masjid Tanah 2025</h1><!-- Category Selection -->
      <div class="mt-6 flex justify-center gap-3"><button onclick="switchCategory('rendah')" id="btn-category-rendah" class="px-8 py-3 bg-white text-purple-700 font-bold rounded-lg shadow-lg hover:bg-gray-100 transition-colors text-lg"> 🎯 Kategori Rendah </button> <button onclick="switchCategory('menengah')" id="btn-category-menengah" class="px-8 py-3 bg-purple-200 text-purple-700 font-bold rounded-lg shadow-lg hover:bg-purple-300 transition-colors text-lg"> 🎯 Kategori Menengah </button>
      </div><!-- Navigation Buttons -->
-     <div class="mt-6 flex justify-center gap-3 flex-wrap"><button onclick="showPage('standings')" id="btn-standings" class="px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition-colors"> ���� Kedudukan Mata </button> <button onclick="showPage('schedule')" id="btn-schedule" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> �� Jadual Masa </button> <button onclick="showPage('h2h')" id="btn-h2h" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🤝 Head-to-Head </button> <button onclick="showPage('knockout')" id="btn-knockout" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🏆 Peringkat Kalah Mati </button>
+     <div class="mt-6 flex justify-center gap-3 flex-wrap"><button onclick="showPage('standings')" id="btn-standings" class="px-6 py-3 bg-white text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition-colors"> 📊 Kedudukan Mata </button> <button onclick="showPage('schedule')" id="btn-schedule" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🕐 Jadual Masa </button> <button onclick="showPage('h2h')" id="btn-h2h" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🤝 Head-to-Head </button> <button onclick="showPage('knockout')" id="btn-knockout" class="px-6 py-3 bg-purple-200 text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-purple-300 transition-colors"> 🏆 Peringkat Kalah Mati </button>
      </div>
      <div class="mt-4 flex justify-center gap-2"><button id="mode-toggle" onclick="toggleMode()" class="px-6 py-2 bg-white text-purple-700 font-semibold rounded-lg shadow-lg hover:bg-gray-100 transition-colors"> 👤 Mod Admin </button>
       <div id="mode-indicator" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-lg">
@@ -41,7 +78,7 @@
        </div>
        <div class="flex gap-2"><button onclick="checkPassword()" class="flex-1 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 font-semibold"> Login </button> <button onclick="closePasswordModal()" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 font-semibold"> Batal </button>
        </div>
-       <p class="text-xs text-gray-500 mt-4">�� Hint: admin123</p>
+       <p class="text-xs text-gray-500 mt-4">💡 Hint: admin123</p>
       </div>
      </div>
     </header><!-- Page 1: Jadual Masa -->
@@ -49,7 +86,7 @@
      <div class="bg-white rounded-lg shadow-lg p-6">
       <h2 id="schedule-title" class="text-2xl font-bold mb-6 text-center text-purple-700">🕐 Jadual Masa Perlawanan</h2><!-- Padang 1 -->
       <div class="mb-8">
-       <h3 class="text-xl font-semibold mb-4 text-white bg-blue-600 px-4 py-2 rounded-lg">�� Padang 1</h3>
+       <h3 class="text-xl font-semibold mb-4 text-white bg-blue-600 px-4 py-2 rounded-lg">⚽ Padang 1</h3>
        <div id="schedule-padang1" class="space-y-2"></div>
       </div><!-- Padang 2 -->
       <div class="mb-8">
@@ -59,7 +96,7 @@
       <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded">
        <p class="text-sm text-gray-700"><strong>📝 Nota:</strong></p>
        <ul class="text-sm text-gray-600 mt-2 space-y-1 ml-4">
-        <li>��� Masa perlawanan: <strong>5 minit</strong></li>
+        <li>⏱️ Masa perlawanan: <strong>5 minit</strong></li>
         <li>• Masa rehat: <strong>2 minit</strong></li>
         <li>• Setiap pasukan ada rehat sebelum perlawanan seterusnya</li>
         <li>• Pasukan akan bermain di kedua-dua padang</li>
@@ -114,7 +151,7 @@
      <div class="bg-white rounded-lg shadow-lg p-6">
       <div class="flex items-center justify-between mb-6">
        <div>
-        <h2 class="text-2xl font-bold text-purple-700">��� Peringkat Kalah Mati</h2>
+        <h2 class="text-2xl font-bold text-purple-700">🏆 Peringkat Kalah Mati</h2>
         <p id="knockout-subtitle" class="text-sm text-gray-600 mt-1">Kategori Rendah bermula dari Suku Akhir</p>
        </div><button id="reset-knockout-btn" onclick="resetKnockoutMatches()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-semibold hidden"> 🗑️ Reset Peringkat Kalah Mati </button>
       </div><!-- Quarter Final (Kategori Rendah sahaja) -->
@@ -231,6 +268,45 @@
    </div>
   </div>
   <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDsspeVmVs6Vr1lKw9YEdj35eqkAoUlL_4",
+      authDomain: "jadual-sukan-futsal-pk.firebaseapp.com",
+      databaseURL: "https://jadual-sukan-futsal-pk-default-rtdb.firebaseio.com",
+      projectId: "jadual-sukan-futsal-pk",
+      storageBucket: "jadual-sukan-futsal-pk.firebasestorage.app",
+      messagingSenderId: "858397112338",
+      appId: "1:858397112338:web:dfc3ee6c40aeba37b7c0cb",
+      measurementId: "G-TQQRRX30W1"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Toast notification function
+    function showToast(message, type = 'success') {
+      const existingToast = document.querySelector('.toast');
+      if (existingToast) {
+        existingToast.remove();
+      }
+
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      const icon = type === 'success' ? '✅' : '❌';
+      toast.innerHTML = `
+        <span style="font-size: 24px;">${icon}</span>
+        <span style="font-weight: 500;">${message}</span>
+      `;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
     const defaultConfig = {
       tournament_title: "KEJOHANAN FUTSAL OKU KARNIVAL PARLIMEN MASJID TANAH",
       group_a_name: "Kumpulan A",
@@ -406,6 +482,23 @@
       return `${currentCategory}-${matchId}`;
     }
 
+    // Firebase: Load data from Firebase
+    function loadDataFromFirebase() {
+      const matchesRef = database.ref('matches');
+      matchesRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        matchScores.clear();
+        
+        if (data) {
+          Object.keys(data).forEach(key => {
+            matchScores.set(key, data[key]);
+          });
+        }
+        
+        renderAll();
+      });
+    }
+
     function calculateStandings(teamIndices, matches, scoresMap, config) {
       const standings = teamIndices.map(idx => ({
         team: getTeamName(idx, config),
@@ -479,16 +572,10 @@
       }
 
       standings.sort((a, b) => {
-        // 1) Pungutan mata
         if (b.points !== a.points) return b.points - a.points;
-        
-        // 2) Beza jaringan
         if (b.gd !== a.gd) return b.gd - a.gd;
-        
-        // 3) Jumlah jaringan
         if (b.gf !== a.gf) return b.gf - a.gf;
         
-        // 4) Head-to-head
         const h2h = getHeadToHead(a.teamIdx, b.teamIdx);
         if (h2h) {
           if (h2h.for > h2h.against) return -1;
@@ -1046,12 +1133,12 @@
       const score2 = score2Input.value === '' ? null : parseInt(score2Input.value);
 
       if (score1 === null || score2 === null || isNaN(score1) || isNaN(score2)) {
-        alert('Sila masukkan markah yang sah untuk kedua-dua pasukan');
+        showToast('Sila masukkan markah yang sah untuk kedua-dua pasukan', 'error');
         return;
       }
 
       if (score1 < 0 || score2 < 0) {
-        alert('Markah tidak boleh negatif');
+        showToast('Markah tidak boleh negatif', 'error');
         return;
       }
 
@@ -1060,48 +1147,23 @@
       saveBtn.disabled = true;
       saveBtn.textContent = 'Menyimpan...';
 
-      const existingScore = matchScores.get(getMatchId(matchId));
-      
       try {
-        if (existingScore && existingScore.__backendId) {
-          const result = await window.dataSdk.update({
-            ...existingScore,
-            team1_score: score1,
-            team2_score: score2
-          });
-          
-          if (!result.isOk) {
-            console.error('Failed to update score:', result.error);
-            alert('Gagal mengemaskini markah. Sila cuba lagi.');
-            score1Input.disabled = false;
-            score2Input.disabled = false;
-            saveBtn.disabled = false;
-            saveBtn.textContent = 'Kemaskini';
-          }
-        } else {
-          const result = await window.dataSdk.create({
-            match_id: getMatchId(matchId),
-            category: currentCategory,
-            team1_score: score1,
-            team2_score: score2
-          });
-          
-          if (!result.isOk) {
-            console.error('Failed to create score:', result.error);
-            alert('Gagal menyimpan markah. Sila cuba lagi.');
-            score1Input.disabled = false;
-            score2Input.disabled = false;
-            saveBtn.disabled = false;
-            saveBtn.textContent = 'Simpan';
-          }
-        }
+        const matchRef = database.ref(`matches/${getMatchId(matchId)}`);
+        await matchRef.set({
+          match_id: getMatchId(matchId),
+          category: currentCategory,
+          team1_score: score1,
+          team2_score: score2
+        });
+        
+        showToast('Markah berjaya disimpan!', 'success');
       } catch (error) {
         console.error('Error saving score:', error);
-        alert('Ralat berlaku semasa menyimpan markah');
+        showToast('Ralat berlaku semasa menyimpan markah', 'error');
         score1Input.disabled = false;
         score2Input.disabled = false;
         saveBtn.disabled = false;
-        saveBtn.textContent = existingScore ? 'Kemaskini' : 'Simpan';
+        saveBtn.textContent = 'Simpan';
       }
     }
 
@@ -1123,17 +1185,17 @@
       const score2 = score2Input.value === '' ? null : parseInt(score2Input.value);
 
       if (!team1Name || !team2Name) {
-        alert('Sila masukkan nama kedua-dua pasukan');
+        showToast('Sila masukkan nama kedua-dua pasukan', 'error');
         return;
       }
 
       if (score1 !== null && score2 !== null) {
         if (isNaN(score1) || isNaN(score2)) {
-          alert('Sila masukkan markah yang sah');
+          showToast('Sila masukkan markah yang sah', 'error');
           return;
         }
         if (score1 < 0 || score2 < 0) {
-          alert('Markah tidak boleh negatif');
+          showToast('Markah tidak boleh negatif', 'error');
           return;
         }
       }
@@ -1145,58 +1207,27 @@
       saveBtn.disabled = true;
       saveBtn.textContent = 'Menyimpan...';
 
-      const existingScore = matchScores.get(getMatchId(matchId));
-      
       try {
-        if (existingScore && existingScore.__backendId) {
-          const result = await window.dataSdk.update({
-            ...existingScore,
-            team1_name: team1Name,
-            team2_name: team2Name,
-            team1_score: score1,
-            team2_score: score2
-          });
-          
-          if (!result.isOk) {
-            console.error('Failed to update knockout score:', result.error);
-            alert('Gagal mengemaskini keputusan. Sila cuba lagi.');
-            team1Input.disabled = false;
-            team2Input.disabled = false;
-            score1Input.disabled = false;
-            score2Input.disabled = false;
-            saveBtn.disabled = false;
-            saveBtn.textContent = 'Kemaskini Keputusan';
-          }
-        } else {
-          const result = await window.dataSdk.create({
-            match_id: getMatchId(matchId),
-            category: currentCategory,
-            team1_name: team1Name,
-            team2_name: team2Name,
-            team1_score: score1,
-            team2_score: score2
-          });
-          
-          if (!result.isOk) {
-            console.error('Failed to create knockout score:', result.error);
-            alert('Gagal menyimpan keputusan. Sila cuba lagi.');
-            team1Input.disabled = false;
-            team2Input.disabled = false;
-            score1Input.disabled = false;
-            score2Input.disabled = false;
-            saveBtn.disabled = false;
-            saveBtn.textContent = 'Simpan Keputusan';
-          }
-        }
+        const matchRef = database.ref(`matches/${getMatchId(matchId)}`);
+        await matchRef.set({
+          match_id: getMatchId(matchId),
+          category: currentCategory,
+          team1_name: team1Name,
+          team2_name: team2Name,
+          team1_score: score1,
+          team2_score: score2
+        });
+        
+        showToast('Keputusan berjaya disimpan!', 'success');
       } catch (error) {
         console.error('Error saving knockout score:', error);
-        alert('Ralat berlaku semasa menyimpan keputusan');
+        showToast('Ralat berlaku semasa menyimpan keputusan', 'error');
         team1Input.disabled = false;
         team2Input.disabled = false;
         score1Input.disabled = false;
         score2Input.disabled = false;
         saveBtn.disabled = false;
-        saveBtn.textContent = existingScore ? 'Kemaskini Keputusan' : 'Simpan Keputusan';
+        saveBtn.textContent = 'Simpan Keputusan';
       }
     }
 
@@ -1212,32 +1243,33 @@
         resetBtn.textContent = 'Memadam...';
       }
       
-      for (const id of knockoutIds) {
-        const matchId = getMatchId(id);
-        const existingScore = matchScores.get(matchId);
-        
-        if (existingScore && existingScore.__backendId) {
-          await window.dataSdk.delete(existingScore);
+      try {
+        for (const id of knockoutIds) {
+          const matchId = getMatchId(id);
+          const matchRef = database.ref(`matches/${matchId}`);
+          await matchRef.remove();
         }
+        
+        showToast('Peringkat Kalah Mati telah direset!', 'success');
+      } catch (error) {
+        console.error('Error resetting knockout:', error);
+        showToast('Ralat berlaku semasa reset', 'error');
       }
       
       if (resetBtn) {
         resetBtn.disabled = false;
-        resetBtn.textContent = '���️ Reset Peringkat Kalah Mati';
+        resetBtn.textContent = '🗑️ Reset Peringkat Kalah Mati';
       }
     }
 
     function renderKnockoutStage() {
       const quarterSection = document.getElementById('quarter-finals-section');
-      const semi1Container = document.getElementById('semi1-container');
-      const semi2Container = document.getElementById('semi2-container');
       const semi1Info = document.getElementById('semi1-info');
       const semi2Info = document.getElementById('semi2-info');
       
       if (currentCategory === 'rendah') {
         quarterSection.style.display = 'block';
         
-        // Update info text untuk rendah
         semi1Info.textContent = 'Menang Suku Akhir 1 vs Menang Suku Akhir 2';
         semi2Info.textContent = 'Menang Suku Akhir 3 vs Menang Suku Akhir 4';
         
@@ -1251,7 +1283,6 @@
         renderKnockoutMatch('third-place-match', 'THIRD-PLACE', 'Kalah Separuh Akhir 1', 'Kalah Separuh Akhir 2');
         renderKnockoutMatch('final-match', 'FINAL', 'Pemenang Separuh Akhir 1', 'Pemenang Separuh Akhir 2');
       } else {
-        // Kategori Menengah: 8 pasukan layak (2 teratas setiap kumpulan + 2 tempat 3 terbaik)
         quarterSection.style.display = 'block';
         
         semi1Info.textContent = 'Menang Suku Akhir 1 vs Menang Suku Akhir 2';
@@ -1300,199 +1331,36 @@
       const { matchesA, matchesB, matchesC } = getCurrentMatches();
       
       const schedule = [];
-      let currentTime = currentCategory === 'menengah' ? 13 * 60 + 30 : 9 * 60; // 1:30 PM untuk menengah, 9:00 AM untuk rendah
+      let currentTime = currentCategory === 'menengah' ? 13 * 60 + 30 : 9 * 60;
       
       let matchOrder = [];
       
       if (currentCategory === 'rendah') {
-        // Susunan perlawanan yang memastikan setiap pasukan bermain di kedua-dua padang
-        // Strategi: Setiap kumpulan akan bergilir-gilir antara Padang 1 dan Padang 2
-        
         matchOrder = [
-          // Slot 1 & 2 (9:00-9:05)
-          matchesA[0],  // A-0-1: Team 1 vs Team 2 (Padang 1)
-          matchesB[0],  // B-0-1: Team 5 vs Team 6 (Padang 2)
-          
-          // Slot 3 & 4 (9:07-9:12)
-          matchesC[0],  // C-0-1: Team 9 vs Team 10 (Padang 1)
-          matchesA[1],  // A-2-3: Team 3 vs Team 4 (Padang 2)
-          
-          // Slot 5 & 6 (9:14-9:19)
-          matchesB[1],  // B-2-3: Team 7 vs Team 8 (Padang 1)
-          matchesC[1],  // C-2-3: Team 11 vs Team 12 (Padang 2)
-          
-          // Slot 7 & 8 (9:21-9:26)
-          matchesA[2],  // A-0-2: Team 1 vs Team 3 (Padang 1)
-          matchesB[2],  // B-0-2: Team 5 vs Team 7 (Padang 2)
-          
-          // Slot 9 & 10 (9:28-9:33)
-          matchesC[2],  // C-0-2: Team 9 vs Team 11 (Padang 1)
-          matchesA[3],  // A-1-3: Team 2 vs Team 4 (Padang 2)
-          
-          // Slot 11 & 12 (9:35-9:40)
-          matchesB[3],  // B-1-3: Team 6 vs Team 8 (Padang 1)
-          matchesC[3],  // C-1-3: Team 10 vs Team 12 (Padang 2)
-          
-          // Slot 13 & 14 (9:42-9:47)
-          matchesA[4],  // A-0-3: Team 1 vs Team 4 (Padang 1)
-          matchesB[4],  // B-0-3: Team 5 vs Team 8 (Padang 2)
-          
-          // Slot 15 & 16 (9:49-9:54)
-          matchesC[4],  // C-0-3: Team 9 vs Team 12 (Padang 1)
-          matchesA[5],  // A-1-2: Team 2 vs Team 3 (Padang 2)
-          
-          // Slot 17 & 18 (9:56-10:01)
-          matchesB[5],  // B-1-2: Team 6 vs Team 7 (Padang 1)
-          matchesC[5]   // C-1-2: Team 10 vs Team 11 (Padang 2)
+          matchesA[0], matchesB[0],
+          matchesC[0], matchesA[1],
+          matchesB[1], matchesC[1],
+          matchesA[2], matchesB[2],
+          matchesC[2], matchesA[3],
+          matchesB[3], matchesC[3],
+          matchesA[4], matchesB[4],
+          matchesC[4], matchesA[5],
+          matchesB[5], matchesC[5]
         ];
       } else {
-        // Kategori Menengah - 4 pasukan (A & B), 3 pasukan (C)
-        // Strategi: Pastikan setiap pasukan bermain di KEDUA-DUA padang
-        
-        // Kumpulan A: 6 perlawanan
-        // Team 0: Match 0,2,4,5 = A-0-1(P1), A-0-2(P2), A-0-3(P1), A-1-2(P2) -> P1: 2x, P2: 2x ✓
-        // Team 1: Match 0,3,5 = A-0-1(P1), A-1-3(P1), A-1-2(P2) -> P1: 2x, P2: 1x ✗
-        // Team 2: Match 1,2,5 = A-2-3(P1), A-0-2(P2), A-1-2(P2) -> P1: 1x, P2: 2x ✗
-        // Team 3: Match 1,3,4 = A-2-3(P1), A-1-3(P1), A-0-3(P1) -> P1: 3x, P2: 0x ✗
-        
-        // Susunan BARU untuk Kumpulan A:
-        // A-0-1 (Padang 1), A-2-3 (Padang 2), A-0-2 (Padang 1), A-1-3 (Padang 2), A-0-3 (Padang 1), A-1-2 (Padang 2)
-        // Team 0: P1(0-1), P1(0-2), P1(0-3) = 3x P1 ✗
-        
-        // Susunan OPTIMUM untuk Kumpulan A:
-        // A-0-1 (P1), A-2-3 (P2), A-0-2 (P2), A-1-3 (P1), A-0-3 (P1), A-1-2 (P2)
-        // Team 0: A-0-1(P1), A-0-2(P2), A-0-3(P1) = 2xP1, 1xP2
-        // Team 1: A-0-1(P1), A-1-3(P1), A-1-2(P2) = 2xP1, 1xP2
-        // Team 2: A-2-3(P2), A-0-2(P2), A-1-2(P2) = 0xP1, 3xP2 ✗
-        
-        // CUBA LAGI - Kumpulan A (setiap team 3 perlawanan):
-        // A-0-1(P1), A-2-3(P2), A-0-2(P1), A-1-3(P2), A-1-2(P1), A-0-3(P2)
-        // T0: A-0-1(P1), A-0-2(P1), A-0-3(P2) = 2xP1, 1xP2 ✓
-        // T1: A-0-1(P1), A-1-3(P2), A-1-2(P1) = 2xP1, 1xP2 ✓
-        // T2: A-2-3(P2), A-0-2(P1), A-1-2(P1) = 2xP1, 1xP2 ✓
-        // T3: A-2-3(P2), A-1-3(P2), A-0-3(P2) = 0xP1, 3xP2 ✗
-        
-        // SUSUNAN TERBAIK - Kumpulan A:
-        // A-0-1(P1), A-2-3(P2), A-1-2(P1), A-0-3(P2), A-0-2(P1), A-1-3(P2)
-        // T0: A-0-1(P1), A-0-3(P2), A-0-2(P1) = 2xP1, 1xP2 ✓
-        // T1: A-0-1(P1), A-1-2(P1), A-1-3(P2) = 2xP1, 1xP2 ✓
-        // T2: A-2-3(P2), A-1-2(P1), A-0-2(P1) = 2xP1, 1xP2 ✓
-        // T3: A-2-3(P2), A-0-3(P2), A-1-3(P2) = 0xP1, 3xP2 ✗
-        
-        // FINAL - Kumpulan A (berselang-seli):
-        // A-0-1(P1), A-2-3(P2), A-0-2(P2), A-1-3(P1), A-0-3(P2), A-1-2(P1)
-        // T0: A-0-1(P1), A-0-2(P2), A-0-3(P2) = 1xP1, 2xP2 ✓
-        // T1: A-0-1(P1), A-1-3(P1), A-1-2(P1) = 3xP1, 0xP2 ✗
-        
-        // KATEGORI MENENGAH - JADUAL OPTIMUM
-        // Kumpulan A: 5 pasukan (10 perlawanan)
-        // Kumpulan B: 4 pasukan (6 perlawanan)
-        // Kumpulan C: 4 pasukan (6 perlawanan)
-        // TOTAL: 22 perlawanan
-        
-        // Strategi: Pastikan setiap pasukan bermain di kedua-dua padang + rehat mencukupi
         matchOrder = [
-          // PUSINGAN 1 (1:30 PM)
-          matchesA[0],  // A-0-1: ADE PUTRA vs KASTURI B (P1)
-          matchesB[0],  // B-0-1: KASTURI A vs STARIM UNITED B (P2)
-          
-          // PUSINGAN 2 (1:37 PM) - Rehat 2 min
-          matchesC[0],  // C-0-1: STARIM UNITED A vs KASTURI C (P1)
-          matchesA[1],  // A-2-3: SERI SOCCER vs SMKKT (P2)
-          
-          // PUSINGAN 3 (1:44 PM)
-          matchesB[1],  // B-2-3: MALINDO TEAM vs LUNASS FC (P1)
-          matchesC[1],  // C-2-3: SMK SUNGAI UDANG vs SEMERAH (P2)
-          
-          // PUSINGAN 4 (1:51 PM)
-          matchesA[2],  // A-0-2: ADE PUTRA vs SERI SOCCER (P1)
-          matchesB[2],  // B-0-2: KASTURI A vs MALINDO TEAM (P2)
-          
-          // PUSINGAN 5 (1:58 PM)
-          matchesC[2],  // C-0-2: STARIM UNITED A vs SMK SUNGAI UDANG (P1)
-          matchesA[3],  // A-1-3: KASTURI B vs SMKKT (P2)
-          
-          // PUSINGAN 6 (2:05 PM)
-          matchesB[3],  // B-1-3: STARIM UNITED B vs LUNASS FC (P1)
-          matchesC[3],  // C-1-3: KASTURI C vs SEMERAH (P2)
-          
-          // PUSINGAN 7 (2:12 PM)
-          matchesA[4],  // A-0-3: ADE PUTRA vs SMKKT (P1)
-          matchesB[4],  // B-0-3: KASTURI A vs LUNASS FC (P2)
-          
-          // PUSINGAN 8 (2:19 PM)
-          matchesC[4],  // C-0-3: STARIM UNITED A vs SEMERAH (P1)
-          matchesA[5],  // A-1-2: KASTURI B vs SERI SOCCER (P2)
-          
-          // PUSINGAN 9 (2:26 PM)
-          matchesB[5],  // B-1-2: STARIM UNITED B vs MALINDO TEAM (P1)
-          matchesC[5],  // C-1-2: KASTURI C vs SMK SUNGAI UDANG (P2)
-          
-          // PUSINGAN 10 (2:33 PM) - Kumpulan A sahaja (5 pasukan)
-          matchesA[6],  // A-0-4: ADE PUTRA vs D'NAISS (P1)
-          matchesA[7],  // A-1-4: KASTURI B vs D'NAISS (P2)
-          
-          // PUSINGAN 11 (2:40 PM)
-          matchesA[8],  // A-2-4: SERI SOCCER vs D'NAISS (P1)
-          matchesA[9]   // A-3-4: SMKKT vs D'NAISS (P2)
+          matchesA[0], matchesB[0],
+          matchesC[0], matchesA[1],
+          matchesB[1], matchesC[1],
+          matchesA[2], matchesB[2],
+          matchesC[2], matchesA[3],
+          matchesB[3], matchesC[3],
+          matchesA[4], matchesB[4],
+          matchesC[4], matchesA[5],
+          matchesB[5], matchesC[5],
+          matchesA[6], matchesA[7],
+          matchesA[8], matchesA[9]
         ];
-        
-        // ✅ VERIFIKASI JADUAL - SEMUA PASUKAN SEIMBANG
-        
-        // KUMPULAN A (5 pasukan - 4 perlawanan setiap satu):
-        // T0 (ADE PUTRA): P1(0-1), P1(0-2), P1(0-3), P1(0-4) = 4xP1, 0xP2
-        //    Rehat: 7min(P2), 14min(P3), 14min(P4-6), 21min(P7-9), 7min(P10)
-        // T1 (KASTURI B): P1(0-1), P2(1-3), P2(1-2), P2(1-4) = 1xP1, 3xP2
-        //    Rehat: 14min(P2-3), 21min(P4-6), 14min(P7), 14min(P8-9), 7min(P10)
-        // T2 (SERI SOCCER): P2(2-3), P1(0-2), P2(1-2), P1(2-4) = 2xP1, 2xP2 ✓
-        //    Rehat: 7min(P2), 14min(P3), 21min(P4-6), 14min(P7), 28min(P8-10), 7min(P11)
-        // T3 (SMKKT): P2(2-3), P2(1-3), P1(0-3), P2(3-4) = 1xP1, 3xP2
-        //    Rehat: 7min(P2), 21min(P3-5), 14min(P6), 7min(P7), 21min(P8-10), 7min(P11)
-        // T4 (D'NAISS): P1(0-4), P2(1-4), P1(2-4), P2(3-4) = 2xP1, 2xP2 ✓
-        //    Rehat: Semua 7min (main 4 perlawanan berturut-turut di P10-11)
-        
-        // KUMPULAN B (4 pasukan - 3 perlawanan setiap satu):
-        // T5 (KASTURI A): P2(0-1), P2(0-2), P2(0-3) = 0xP1, 3xP2
-        //    Rehat: 7min(P1), 14min(P2-3), 14min(P4), 14min(P5-6), 7min(P7)
-        // T6 (STARIM UNITED B): P2(0-1), P1(1-3), P1(1-2) = 2xP1, 1xP2 ✓
-        //    Rehat: 7min(P1), 28min(P2-5), 7min(P6), 14min(P7-8), 7min(P9)
-        // T7 (MALINDO TEAM): P1(2-3), P2(0-2), P1(1-2) = 2xP1, 1xP2 ✓
-        //    Rehat: 14min(P1-2), 7min(P3), 7min(P4), 28min(P5-8), 7min(P9)
-        // T8 (LUNASS FC): P1(2-3), P1(1-3), P2(0-3) = 2xP1, 1xP2 ✓
-        //    Rehat: 14min(P1-2), 7min(P3), 14min(P4-5), 7min(P6), 7min(P7)
-        
-        // KUMPULAN C (4 pasukan - 3 perlawanan setiap satu):
-        // T9 (STARIM UNITED A): P1(0-1), P1(0-2), P1(0-3) = 3xP1, 0xP2
-        //    Rehat: 7min(P1), 7min(P2), 14min(P3-4), 7min(P5), 14min(P6-7), 7min(P8)
-        // T10 (KASTURI C): P1(0-1), P2(1-3), P2(1-2) = 1xP1, 2xP2 ✓
-        //    Rehat: 7min(P1), 28min(P2-5), 7min(P6), 14min(P7-8), 7min(P9)
-        // T11 (SMK SUNGAI UDANG): P2(2-3), P1(0-2), P2(1-2) = 1xP1, 2xP2 ✓
-        //    Rehat: 14min(P1-2), 7min(P3), 14min(P4), 7min(P5), 21min(P6-8), 7min(P9)
-        // T12 (SEMERAH): P2(2-3), P2(1-3), P1(0-3) = 1xP1, 2xP2 ✓
-        //    Rehat: 14min(P1-2), 7min(P3), 21min(P4-6), 7min(P7), 7min(P8)
-        
-        // 📊 RINGKASAN:
-        // Pasukan yang bermain di KEDUA-DUA padang (seimbang):
-        // ✓ T2 (SERI SOCCER): 2xP1, 2xP2
-        // ✓ T4 (D'NAISS): 2xP1, 2xP2
-        // ✓ T6 (STARIM UNITED B): 2xP1, 1xP2
-        // ✓ T7 (MALINDO TEAM): 2xP1, 1xP2
-        // ✓ T8 (LUNASS FC): 2xP1, 1xP2
-        // ✓ T10 (KASTURI C): 1xP1, 2xP2
-        // ✓ T11 (SMK SUNGAI UDANG): 1xP1, 2xP2
-        // ✓ T12 (SEMERAH): 1xP1, 2xP2
-        
-        // Pasukan yang perlu main di satu padang sahaja (limitasi sistem):
-        // T0 (ADE PUTRA): 4 perlawanan berturut P1 (main 4 kali, rehat mencukupi)
-        // T1 (KASTURI B): 3 perlawanan di P2, 1 di P1
-        // T3 (SMKKT): 3 perlawanan di P2, 1 di P1
-        // T5 (KASTURI A): 3 perlawanan di P2 (main 3 kali, rehat mencukupi)
-        // T9 (STARIM UNITED A): 3 perlawanan di P1 (main 3 kali, rehat mencukupi)
-        
-        // ⏱️ MASA TAMAT: 1:30 PM + 22 perlawanan × 5 min = 110 min
-        //                + 11 pusingan × 2 min rehat = 22 min
-        //                TOTAL: 132 min = 2 jam 12 min
-        //                TAMAT: 3:42 PM (sebelum Peringkat Kalah Mati bermula 4:04 PM)
       }
       
       matchOrder.forEach((match, index) => {
@@ -1516,9 +1384,8 @@
           group: match.group
         });
         
-        // Selepas setiap 2 perlawanan (satu pusingan di kedua-dua padang), tambah masa rehat
         if (index % 2 === 1) {
-          currentTime += 5 + 2; // 5 minit main + 2 minit rehat
+          currentTime += 5 + 2;
         }
       });
       
@@ -1531,15 +1398,11 @@
     function generateKnockoutSchedule() {
       const qualified = getQualifiedTeams();
       const schedule = [];
-      // Kategori menengah: 23 perlawanan × 5 min = 115 min, + 12 pusingan × 2 min rehat = 24 min = 139 min total
-      // Bermula 1:30 PM + 139 min = 3:49 PM, tambah 15 min rehat = 4:04 PM
       let currentTime = currentCategory === 'menengah' 
-        ? 16 * 60 + 4  // 4:04 PM untuk menengah
-        : 10 * 60 + 15; // 10:15 AM untuk rendah
+        ? 16 * 60 + 4
+        : 10 * 60 + 15;
       
       if (currentCategory === 'rendah') {
-        // Kategori Rendah - Jadual bermula dari Separuh Akhir sahaja
-        // Separuh Akhir (2 perlawanan)
         const semiMatches = [
           { id: 'SEMI-1', team1: 'Menang Suku Akhir 1', team2: 'Menang Suku Akhir 2', stage: 'Separuh Akhir 1' },
           { id: 'SEMI-2', team1: 'Menang Suku Akhir 3', team2: 'Menang Suku Akhir 4', stage: 'Separuh Akhir 2' }
@@ -1565,7 +1428,6 @@
           currentTime += 10 + 5;
         });
         
-        // Tempat Ketiga
         const startHour3rd = Math.floor(currentTime / 60);
         const startMin3rd = currentTime % 60;
         const endTime3rd = currentTime + 10;
@@ -1584,7 +1446,6 @@
         
         currentTime += 10 + 5;
         
-        // Akhir
         const startHourFinal = Math.floor(currentTime / 60);
         const startMinFinal = currentTime % 60;
         const endTimeFinal = currentTime + 10;
@@ -1601,7 +1462,6 @@
           color: '#eab308'
         });
       } else {
-        // Kategori Menengah - Bermula dari Suku Akhir
         const quarterMatches = [
           { id: 'QUARTER-1', team1: qualified.johanA, team2: qualified.best3rd2, stage: 'Suku Akhir 1' },
           { id: 'QUARTER-2', team1: qualified.johanB, team2: qualified.best3rd1, stage: 'Suku Akhir 2' },
@@ -1629,7 +1489,6 @@
           currentTime += 10 + 5;
         });
         
-        // Separuh Akhir (2 perlawanan)
         const semiMatches = [
           { id: 'SEMI-1', team1: 'Menang Suku Akhir 1', team2: 'Menang Suku Akhir 2', stage: 'Separuh Akhir 1' },
           { id: 'SEMI-2', team1: 'Menang Suku Akhir 3', team2: 'Menang Suku Akhir 4', stage: 'Separuh Akhir 2' }
@@ -1655,7 +1514,6 @@
           currentTime += 10 + 5;
         });
         
-        // Tempat Ketiga
         const startHour3rd = Math.floor(currentTime / 60);
         const startMin3rd = currentTime % 60;
         const endTime3rd = currentTime + 10;
@@ -1674,7 +1532,6 @@
         
         currentTime += 10 + 5;
         
-        // Akhir
         const startHourFinal = Math.floor(currentTime / 60);
         const startMinFinal = currentTime % 60;
         const endTimeFinal = currentTime + 10;
@@ -1781,7 +1638,6 @@
       const groupCStandings = document.getElementById('page-standings').children[2];
       const groupCH2H = document.getElementById('page-h2h').children[2];
       
-      // Kumpulan C sentiasa dipaparkan untuk kedua-dua kategori
       groupCStandings.style.display = 'block';
       groupCH2H.style.display = 'block';
       
@@ -1801,13 +1657,6 @@
       renderKnockoutSchedule();
       renderKnockoutStage();
     }
-
-    const dataHandler = {
-      onDataChanged(data) {
-        matchScores = new Map(data.map(record => [record.match_id, record]));
-        renderAll();
-      }
-    };
 
     async function onConfigChange(config) {
       const titleElement = document.getElementById('tournament-title');
@@ -1914,12 +1763,8 @@
     window.switchCategory = switchCategory;
 
     (async () => {
-      if (window.dataSdk) {
-        const initResult = await window.dataSdk.init(dataHandler);
-        if (!initResult.isOk) {
-          console.error("Failed to initialize data SDK");
-        }
-      }
+      // Load data from Firebase
+      loadDataFromFirebase();
 
       if (window.elementSdk) {
         window.elementSdk.init({
@@ -2005,5 +1850,5 @@
       }
     })();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afe46d1d5eac786',t:'MTc2NjA1Njg4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afe565cf4ba9103',t:'MTc2NjA1NzUyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
