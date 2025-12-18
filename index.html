@@ -544,8 +544,8 @@
         };
       } else {
         const teamIndicesA = [0, 1, 2, 3, 4];
-        const teamIndicesB = [5, 6, 7, 8, 9];
-        const teamIndicesC = [10, 11, 12, 13];
+        const teamIndicesB = [5, 6, 7, 8];
+        const teamIndicesC = [9, 10, 11, 12];
         
         const config = window.elementSdk?.config || defaultConfig;
         const standingsA = calculateStandings(teamIndicesA, matchesMenengahA, matchScores, config);
@@ -811,16 +811,34 @@
           const q1Complete = q1Score && q1Score.team1_score !== null && q1Score.team2_score !== null;
           const q2Complete = q2Score && q2Score.team1_score !== null && q2Score.team2_score !== null;
           
-          actualTeam1 = q1Complete ? (q1Score.team1_score > q1Score.team2_score ? qualified.johanA : qualified.best3rd2) : defaultTeam1;
-          actualTeam2 = q2Complete ? (q2Score.team1_score > q2Score.team2_score ? qualified.johanB : qualified.best3rd1) : defaultTeam2;
+          if (q1Complete && q1Score.team1_name && q1Score.team2_name) {
+            actualTeam1 = q1Score.team1_score > q1Score.team2_score ? q1Score.team1_name : q1Score.team2_name;
+          } else {
+            actualTeam1 = defaultTeam1;
+          }
+          
+          if (q2Complete && q2Score.team1_name && q2Score.team2_name) {
+            actualTeam2 = q2Score.team1_score > q2Score.team2_score ? q2Score.team1_name : q2Score.team2_name;
+          } else {
+            actualTeam2 = defaultTeam2;
+          }
         } else if (matchId === 'SEMI-2') {
           const q3Score = matchScores.get(getMatchId('QUARTER-3'));
           const q4Score = matchScores.get(getMatchId('QUARTER-4'));
           const q3Complete = q3Score && q3Score.team1_score !== null && q3Score.team2_score !== null;
           const q4Complete = q4Score && q4Score.team1_score !== null && q4Score.team2_score !== null;
           
-          actualTeam1 = q3Complete ? (q3Score.team1_score > q3Score.team2_score ? qualified.johanC : qualified.naibJohanB) : defaultTeam1;
-          actualTeam2 = q4Complete ? (q4Score.team1_score > q4Score.team2_score ? qualified.naibJohanA : qualified.naibJohanC) : defaultTeam2;
+          if (q3Complete && q3Score.team1_name && q3Score.team2_name) {
+            actualTeam1 = q3Score.team1_score > q3Score.team2_score ? q3Score.team1_name : q3Score.team2_name;
+          } else {
+            actualTeam1 = defaultTeam1;
+          }
+          
+          if (q4Complete && q4Score.team1_name && q4Score.team2_name) {
+            actualTeam2 = q4Score.team1_score > q4Score.team2_score ? q4Score.team1_name : q4Score.team2_name;
+          } else {
+            actualTeam2 = defaultTeam2;
+          }
         } else if (matchId === 'THIRD-PLACE') {
           const s1Score = matchScores.get(getMatchId('SEMI-1'));
           const s2Score = matchScores.get(getMatchId('SEMI-2'));
@@ -868,23 +886,41 @@
           actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanB : defaultTeam2;
         } else if (matchId === 'QUARTER-4') {
           actualTeam1 = allGroupMatchesComplete ? qualified.naibJohanA : defaultTeam1;
-          actualTeam2 = allGroupMatchesComplete ? qualified.naibJohanA : defaultTeam2;
+          actualTeam2 = allGroupMatchesComplete ? qualified.best3rd2 : defaultTeam2;
         } else if (matchId === 'SEMI-1') {
           const q1Score = matchScores.get(getMatchId('QUARTER-1'));
           const q2Score = matchScores.get(getMatchId('QUARTER-2'));
           const q1Complete = q1Score && q1Score.team1_score !== null && q1Score.team2_score !== null;
           const q2Complete = q2Score && q2Score.team1_score !== null && q2Score.team2_score !== null;
           
-          actualTeam1 = q1Complete ? (q1Score.team1_score > q1Score.team2_score ? qualified.johanA : qualified.best3rd2) : defaultTeam1;
-          actualTeam2 = q2Complete ? (q2Score.team1_score > q2Score.team2_score ? qualified.johanB : qualified.best3rd1) : defaultTeam2;
+          if (q1Complete && q1Score.team1_name && q1Score.team2_name) {
+            actualTeam1 = q1Score.team1_score > q1Score.team2_score ? q1Score.team1_name : q1Score.team2_name;
+          } else {
+            actualTeam1 = defaultTeam1;
+          }
+          
+          if (q2Complete && q2Score.team1_name && q2Score.team2_name) {
+            actualTeam2 = q2Score.team1_score > q2Score.team2_score ? q2Score.team1_name : q2Score.team2_name;
+          } else {
+            actualTeam2 = defaultTeam2;
+          }
         } else if (matchId === 'SEMI-2') {
           const q3Score = matchScores.get(getMatchId('QUARTER-3'));
           const q4Score = matchScores.get(getMatchId('QUARTER-4'));
           const q3Complete = q3Score && q3Score.team1_score !== null && q3Score.team2_score !== null;
           const q4Complete = q4Score && q4Score.team1_score !== null && q4Score.team2_score !== null;
           
-          actualTeam1 = q3Complete ? (q3Score.team1_score > q3Score.team2_score ? qualified.johanC : qualified.naibJohanB) : defaultTeam1;
-          actualTeam2 = q4Complete ? (q4Score.team1_score > q4Score.team2_score ? qualified.naibJohanA : qualified.naibJohanC) : defaultTeam2;
+          if (q3Complete && q3Score.team1_name && q3Score.team2_name) {
+            actualTeam1 = q3Score.team1_score > q3Score.team2_score ? q3Score.team1_name : q3Score.team2_name;
+          } else {
+            actualTeam1 = defaultTeam1;
+          }
+          
+          if (q4Complete && q4Score.team1_name && q4Score.team2_name) {
+            actualTeam2 = q4Score.team1_score > q4Score.team2_score ? q4Score.team1_name : q4Score.team2_name;
+          } else {
+            actualTeam2 = defaultTeam2;
+          }
         } else if (matchId === 'THIRD-PLACE') {
           const s1Score = matchScores.get(getMatchId('SEMI-1'));
           const s2Score = matchScores.get(getMatchId('SEMI-2'));
@@ -1226,15 +1262,15 @@
         const quarter3Info = document.getElementById('quarter3-info');
         const quarter4Info = document.getElementById('quarter4-info');
         
-        quarter1Info.textContent = 'Johan A vs Tempat 3 Terbaik #2';
-        quarter2Info.textContent = 'Johan B vs Tempat 3 Terbaik #1';
+        quarter1Info.textContent = 'Johan A vs Tempat 3 Terbaik #1';
+        quarter2Info.textContent = 'Johan B vs Naib Johan C';
         quarter3Info.textContent = 'Johan C vs Naib Johan B';
-        quarter4Info.textContent = 'Naib Johan A vs Naib Johan C';
+        quarter4Info.textContent = 'Naib Johan A vs Tempat 3 Terbaik #2';
         
-        renderKnockoutMatch('quarter1-match', 'QUARTER-1', 'Johan A', 'Tempat 3 Terbaik #2');
-        renderKnockoutMatch('quarter2-match', 'QUARTER-2', 'Johan B', 'Tempat 3 Terbaik #1');
+        renderKnockoutMatch('quarter1-match', 'QUARTER-1', 'Johan A', 'Tempat 3 Terbaik #1');
+        renderKnockoutMatch('quarter2-match', 'QUARTER-2', 'Johan B', 'Naib Johan C');
         renderKnockoutMatch('quarter3-match', 'QUARTER-3', 'Johan C', 'Naib Johan B');
-        renderKnockoutMatch('quarter4-match', 'QUARTER-4', 'Naib Johan A', 'Naib Johan C');
+        renderKnockoutMatch('quarter4-match', 'QUARTER-4', 'Naib Johan A', 'Tempat 3 Terbaik #2');
         
         renderKnockoutMatch('semi1-match', 'SEMI-1', 'Menang Suku Akhir 1', 'Menang Suku Akhir 2');
         renderKnockoutMatch('semi2-match', 'SEMI-2', 'Menang Suku Akhir 3', 'Menang Suku Akhir 4');
@@ -1969,5 +2005,5 @@
       }
     })();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afae51003a77e7f',t:'MTc2NjAyMTQyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afe46d1d5eac786',t:'MTc2NjA1Njg4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
