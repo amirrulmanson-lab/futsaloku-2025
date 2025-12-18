@@ -272,7 +272,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyDsspeVmVs6Vr1lKw9YEdj35eqkAoUlL_4",
       authDomain: "jadual-sukan-futsal-pk.firebaseapp.com",
-      databaseURL: "https://jadual-sukan-futsal-pk-default-rtdb.firebaseio.com",
+      databaseURL: "https://jadual-sukan-futsal-pk-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "jadual-sukan-futsal-pk",
       storageBucket: "jadual-sukan-futsal-pk.firebasestorage.app",
       messagingSenderId: "858397112338",
@@ -281,8 +281,15 @@
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    let database;
+    try {
+      firebase.initializeApp(firebaseConfig);
+      database = firebase.database();
+      console.log('✅ Firebase initialized successfully');
+    } catch (error) {
+      console.error('❌ Firebase initialization error:', error);
+      showToast('Ralat: Tidak dapat sambung ke Firebase. Sila semak sambungan internet.', 'error');
+    }
 
     // Toast notification function
     function showToast(message, type = 'success') {
@@ -484,19 +491,31 @@
 
     // Firebase: Load data from Firebase
     function loadDataFromFirebase() {
-      const matchesRef = database.ref('matches');
-      matchesRef.on('value', (snapshot) => {
-        const data = snapshot.val();
-        matchScores.clear();
-        
-        if (data) {
-          Object.keys(data).forEach(key => {
-            matchScores.set(key, data[key]);
-          });
-        }
-        
-        renderAll();
-      });
+      if (!database) {
+        console.error('Database not initialized');
+        return;
+      }
+      
+      try {
+        const matchesRef = database.ref('matches');
+        matchesRef.on('value', (snapshot) => {
+          const data = snapshot.val();
+          matchScores.clear();
+          
+          if (data) {
+            Object.keys(data).forEach(key => {
+              matchScores.set(key, data[key]);
+            });
+          }
+          
+          renderAll();
+        }, (error) => {
+          console.error('Firebase read error:', error);
+          showToast('Ralat membaca data dari Firebase', 'error');
+        });
+      } catch (error) {
+        console.error('Error setting up Firebase listener:', error);
+      }
     }
 
     function calculateStandings(teamIndices, matches, scoresMap, config) {
@@ -1120,6 +1139,11 @@
     }
 
     async function saveScore(matchId) {
+      if (!database) {
+        showToast('Firebase tidak disambungkan. Sila refresh halaman.', 'error');
+        return;
+      }
+      
       const score1Input = document.getElementById(`score-${matchId}-1`);
       const score2Input = document.getElementById(`score-${matchId}-2`);
       const saveBtn = document.getElementById(`btn-${matchId}`);
@@ -1153,13 +1177,14 @@
           match_id: getMatchId(matchId),
           category: currentCategory,
           team1_score: score1,
-          team2_score: score2
+          team2_score: score2,
+          timestamp: firebase.database.ServerValue.TIMESTAMP
         });
         
-        showToast('Markah berjaya disimpan!', 'success');
+        showToast('✅ Markah berjaya disimpan ke Firebase!', 'success');
       } catch (error) {
         console.error('Error saving score:', error);
-        showToast('Ralat berlaku semasa menyimpan markah', 'error');
+        showToast(`❌ Ralat: ${error.message || 'Tidak dapat simpan markah'}`, 'error');
         score1Input.disabled = false;
         score2Input.disabled = false;
         saveBtn.disabled = false;
@@ -1168,6 +1193,11 @@
     }
 
     async function saveKnockoutScore(matchId) {
+      if (!database) {
+        showToast('Firebase tidak disambungkan. Sila refresh halaman.', 'error');
+        return;
+      }
+      
       const team1Input = document.getElementById(`team-${matchId}-1`);
       const team2Input = document.getElementById(`team-${matchId}-2`);
       const score1Input = document.getElementById(`score-${matchId}-1`);
@@ -1215,13 +1245,14 @@
           team1_name: team1Name,
           team2_name: team2Name,
           team1_score: score1,
-          team2_score: score2
+          team2_score: score2,
+          timestamp: firebase.database.ServerValue.TIMESTAMP
         });
         
-        showToast('Keputusan berjaya disimpan!', 'success');
+        showToast('✅ Keputusan berjaya disimpan ke Firebase!', 'success');
       } catch (error) {
         console.error('Error saving knockout score:', error);
-        showToast('Ralat berlaku semasa menyimpan keputusan', 'error');
+        showToast(`❌ Ralat: ${error.message || 'Tidak dapat simpan keputusan'}`, 'error');
         team1Input.disabled = false;
         team2Input.disabled = false;
         score1Input.disabled = false;
@@ -1850,5 +1881,5 @@
       }
     })();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afe565cf4ba9103',t:'MTc2NjA1NzUyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afe5d5863a79103',t:'MTc2NjA1NzgwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
